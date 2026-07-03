@@ -1,0 +1,27 @@
+###Test Base_URL
+GET http://localhost:3000
+
+###Create a Host
+POST http://localhost:3000/auth/register
+Content-Type: application/json 
+# remeber to put a white line here
+{
+ "firstName": "Jane",
+ "lastName": "Red",
+ "hostEmail": "jred@example.com",
+ "hostContact": "072320220",
+ "hostPasswordHash": "jredpassword123"
+}
+
+###create a room
+POST http://localhost:3000/auth/createroom
+Content-Type: application/json
+
+{
+  "roomNumber": "7B",
+  "roomDescription": "Two bedroom: one bathroom, one bedrooms, one dinning room, dinner and breakfast included",
+  "address": "Pamki Building, Kimathi way Nyeri down town",
+  "maxGuest": 2,
+  "pricePerNight": "3500.00",
+  "roomstatus": "booked"
+}
