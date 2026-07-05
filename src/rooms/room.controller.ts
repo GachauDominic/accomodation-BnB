@@ -8,6 +8,7 @@ export const createRoomController = async (req:Request, res: Response) => {
     const createRoom = await createRoomService(room)
     if (!createRoom) return res.json({message: "Room not created"})
     return res.status(201).json({message: "Room created successfully"})
+    // return res.status(201).json({data: createRoom.fields})
   } catch(error: any){
     return res.status(500).json({error: error.message})
   }
@@ -85,7 +86,6 @@ export const deleteRoomController = async (req: Request, res: Response) => {
     if (!deletedRoom) {
       return res.status(400).json({message: "Room not deleted!"})
     }
-
     return res.status(200).json({message: "Room deleted successfully"})
   } catch (error: any) {
     return res.status(500).json({error: error.message})

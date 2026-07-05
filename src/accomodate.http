@@ -1,6 +1,7 @@
 ###Test Base_URL
 GET http://localhost:3000
 
+# HOST
 ###Create a Host
 POST http://localhost:3000/auth/register
 Content-Type: application/json 
@@ -13,15 +14,81 @@ Content-Type: application/json
  "hostPasswordHash": "jredpassword123"
 }
 
+# ROOMS
+### Get all rooms
+GET http://localhost:3000/rooms
+
 ###create a room
 POST http://localhost:3000/auth/createroom
 Content-Type: application/json
 
 {
-  "roomNumber": "7B",
-  "roomDescription": "Two bedroom: one bathroom, one bedrooms, one dinning room, dinner and breakfast included",
+  "roomNumber": "8B",
+  "roomDescription": "Studio apartment: one bathroom, one bedroom, one dinning room, balcony, dinner and breakfast included",
   "address": "Pamki Building, Kimathi way Nyeri down town",
   "maxGuest": 2,
-  "pricePerNight": "3500.00",
+  "pricePerNight": "2000.00",
+  "roomstatus": "vacant"
+}
+
+###get room by num
+GET http://localhost:3000/auth/room/8B
+
+###update room by num
+PATCH http://localhost:3000/auth/roomupdate/7B
+Content-Type: application/json
+
+{
   "roomstatus": "booked"
 }
+
+###delete room by number
+DELETE http://localhost:3000/auth/roomdelete/8B
+
+###get room by guest contact
+GET http://localhost:3000/auth/room/
+
+###get vacant room 
+GET http://localhost:3000/rooms/vacantrooms
+
+###get booked room
+GET http://localhost:3000/rooms/bookedrooms
+
+###get occupied room  
+GET http://localhost:3000/rooms/occupiedrooms
+
+
+# GUESTS
+### Get all guests
+GET http://localhost:3000/auth/guests
+
+### Create a guest
+POST http://localhost:3000/auth/guest/register
+Content-Type: application/json
+
+{
+  "guestRoomNumber": "7B",
+  "guestfirstName": "Dennis",
+  "guestlastName": "Ndichu",
+  "guestContact": "0722664404"
+}
+
+### get guest by id
+GET http://localhost:3000/auth/guest/guestbyid/ee6e1b75-edb1-46dd-9c57-ae8bbcc40f07
+
+### get guest by contact
+GET http://localhost:3000/auth/guest/guestbycontact/0725638931
+
+### get guest by roomnum
+GET http://localhost:3000/auth/guest/guestbyroomnum/5A
+
+### update guest by contact
+PATCH  http://localhost:3000/auth/guest/updateguest/0725638931
+Content-Type: application/json
+
+{
+  "guestlastName": "Flair"
+}
+
+### delete guest
+DELETE http://localhost:3000/auth/guest/deleteguest/0722664404

@@ -1,7 +1,9 @@
 import host from "./auth/auth.router"
+import guest from "./guests/guest.route"
+import rooms from "./rooms/room.route"
 
-// import express from 'express'
-const express = require('express')
+import express from 'express'
+// const express = require('express')
 const app = express()
 const port = 3000
 
@@ -14,6 +16,8 @@ app.use(express.json())
        
 // routes
 host(app)
+rooms(app)
+guest(app)
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app running on  http://localhost:${port}`))

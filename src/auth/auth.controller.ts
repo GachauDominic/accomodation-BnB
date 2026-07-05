@@ -20,18 +20,18 @@ export const createHostController = async (req:Request, res:Response) => {
   }
 };
 
-export const createGuestController = async (req:Request, res:Response) => {
-   try{
-    const guest = req.body;
-    const password = guest.password;
-    const hashedpassword = await bcrypt.hashSync(password, 10);
-    guest.password = hashedpassword;
+// export const createGuestController = async (req:Request, res:Response) => {
+//    try{
+//     const guest = req.body;
+//     const password = guest.password;
+//     const hashedpassword = await bcrypt.hashSync(password, 10);
+//     guest.password = hashedpassword;
 
-    const createGuest = await createGuestService(guest)
-    if (!createGuest) return res.json({message: "host not created!"})
-    return res.status(201).json({message: createGuest})
+//     const createGuest = await createGuestService(guest)
+//     if (!createGuest) return res.json({message: "Guest not created!"})
+//     return res.status(201).json({message: createGuest})
 
-  } catch(error: any){
-    return res.status(500).json({error: error.message})
-  }
-}
+//   } catch(error: any){
+//     return res.status(500).json({error: error.message})
+//   }
+// }

@@ -23,7 +23,7 @@ const rooms = (app: Express)=>{
     });
 
   // get room by number
-  app.route("/auth/room").get(
+  app.route("/auth/room/:roomNum").get(
     async (req, res, next) => {
       try {
         await getRoomByNumController(req, res)
@@ -33,7 +33,7 @@ const rooms = (app: Express)=>{
     });
 
   // update room by num
-  app.route(`/auth/roomupdate/:num`).patch(
+  app.route(`/auth/roomupdate/:roomNum`).patch(
     async (req, res, next) => {
       try {
         await updateRoomController(req, res)
@@ -44,7 +44,7 @@ const rooms = (app: Express)=>{
   );
 
   // delete a room by num
-  app.route(`/auth/roomdelete/:num`).delete(
+  app.route(`/auth/roomdelete/:roomNum`).delete(
     async (req, res, next) => {
       try {
         await deleteRoomController(req, res)
@@ -55,7 +55,7 @@ const rooms = (app: Express)=>{
   );
 
   // get room by guest contact
-  app.route(`/auth/room/:contact`).get(
+  app.route(`/auth/room/:guestContact`).get(
     async (req, res, next) => {
       try {
         await getRoomByGuestController(req, res)
@@ -66,7 +66,7 @@ const rooms = (app: Express)=>{
   );
 
   // get all vacant rooms
-  app.route("/vacantrooms").get(
+  app.route("/rooms/vacantrooms").get(
     async (req, res, next) => {
       try {
         await getVacantRoomsController(req, res)
@@ -77,7 +77,7 @@ const rooms = (app: Express)=>{
   )
 
   // get all booked rooms
-  app.route("/bookedrooms").get(
+  app.route("/rooms/bookedrooms").get(
     async (req, res, next) => {
       try {
         await getBookedRoomsController(req, res)
@@ -88,7 +88,7 @@ const rooms = (app: Express)=>{
   )
   
   // get all occupied rooms
-  app.route("/occupiedrooms").get(
+  app.route("/rooms/occupiedrooms").get(
     async (req, res, next) => {
       try {
         await getOccupiedRoomsController(req, res)
