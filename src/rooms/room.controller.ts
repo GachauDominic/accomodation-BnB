@@ -5,10 +5,9 @@ import { createRoomService, getAllRoomsService, getRoomService, updateRoomServic
 export const createRoomController = async (req:Request, res: Response) => {
   try {
     const room = req.body
-    const createRoom = await createRoomService(room)
-    if (!createRoom) return res.json({message: "Room not created"})
-    return res.status(201).json({message: "Room created successfully"})
-    // return res.status(201).json({data: createRoom.fields})
+    const createdRoom = await createRoomService(room)
+    if (!createdRoom) return res.json({message: "Room not created"})
+    return res.status(201).json({message: "Room created successfully", data: createdRoom})
   } catch(error: any){
     return res.status(500).json({error: error.message})
   }
@@ -49,7 +48,7 @@ export const updateRoomController = async (req: Request, res: Response) => {
   try {
     const roomNum = req.params.roomNum ?? req.body.roomNum
     if (!roomNum) {
-      return res.status(400).json({message: "Room number is required"})
+      return res.json({message: "Room number is required"})
     }
 
     const updateData = req.body
@@ -62,7 +61,6 @@ export const updateRoomController = async (req: Request, res: Response) => {
     if (!updatedRoom || updatedRoom.length === 0) {
       return res.status(400).json({message: "Room not updated!"})
     }
-
     return res.status(200).json({message: "Room updated successfully", data: updatedRoom})
   } catch (error: any) {
     return res.status(500).json({error: error.message})
@@ -112,28 +110,40 @@ export const getRoomByGuestController = async (req: Request, res: Response) => {
 
 // get all vacant rooms
 export const getVacantRoomsController = async (req: Request, res: Response) => {
-  const vacantRooms = await getVacantRoomsService()
+ try {
+   const vacantRooms = await getVacantRoomsService()
   if (!vacantRooms) {
     return res.status(404).json({message: "No vacant rooms"})
   }
   return res.status(200).json({data: vacantRooms})
+ } catch (error: any) {
+  return res.status(500).json({ error: error.message })
+ }
 
 }
 
 // get all booked rooms
 export const getBookedRoomsController = async (req: Request, res: Response) => {
-  const bookedRooms = await getBookedRoomsService()
-  if (!bookedRooms) {
-    return res.status(404).json({message: "No booked rooms"})
-  }
-  return res.status(200).json({data: bookedRooms})
+  try {
+    const bookedRooms = await getBookedRoomsService()
+    if (!bookedRooms) {
+      return res.status(404).json({message: "No booked rooms"})
+    }
+    return res.status(200).json({data: bookedRooms})
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message })
+  }  
 }
 
 // get all occupied rooms
 export const getOccupiedRoomsController = async (req: Request, res: Response) => {
+  try {
   const occupiedRooms = await getOccupiedRoomsService()
   if (!occupiedRooms) {
-    return res.status(404).json({message: "No booked rooms"})
+    return res.status(404).json({message: "No occupied rooms"})
   }
   return res.status(200).json({data: occupiedRooms})
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message })
+  } 
 }

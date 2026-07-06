@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import db from "../Drizzle/db";
-import { roomsTable, TIRoom, TSRoom, guestsTable } from "../Drizzle/schema";
+import { roomsTable, TIRoom, TSRoom, guestsTable, bookingsTable } from "../Drizzle/schema";
 
 // get all rooms
 export const getAllRoomsService = async () => {
@@ -40,7 +40,20 @@ export const deleteRoomService = async (roomNum:string) => {
 
 //  get occupied rooms
 export const getOccupiedRoomsService = async () => {
-  const occupiedRooms = await db.query.roomsTable.findMany({where: eq(roomsTable.roomstatus, "occupied")})
+  const [occupiedRooms] = await db.select({
+    roomNumber: roomsTable.roomNumber,
+    guestId: guestsTable.guestId,
+  })
+  .from(bookingsTable)
+  .innerJoin(
+    roomsTable,
+    eq(bookingsTable.bookingRoomNumber, roomsTable.roomNumber)
+  )
+  .innerJoin(
+    guestsTable,
+    eq(bookingsTable.bookingGuestId, guestsTable.guestId)
+  )
+  .where(eq(roomsTable.roomstatus, "occupied"));
   return occupiedRooms;
 }
 
@@ -52,17 +65,34 @@ export const getVacantRoomsService = async () => {
 
 // get booked rooms
 export const getBookedRoomsService = async () => {
-  const bookedRooms = await db.query.roomsTable.findMany({where: eq(roomsTable.roomstatus, "booked")})
+  const bookedRooms = await db.select({
+    bookingId: bookingsTable.bookingId,
+    guestId: guestsTable.guestId,
+    roomNumber: roomsTable.roomNumber,
+    price: roomsTable.pricePerNight,
+  })
+  .from(bookingsTable)
+  .leftJoin(
+    guestsTable,
+    eq(bookingsTable.bookingGuestId, guestsTable.guestId)
+  )
+  .leftJoin(
+    roomsTable,
+    eq(bookingsTable.bookingRoomNumber, roomsTable.roomNumber)
+  )
   return bookedRooms;
 }
 
 // get room occupied by user
 export const getRoomByGuestService = async (guestContact: string) => {
-  // right join guestsTable and roomsTable where guest contact matches
-  const occupiedRoom = await db.select()
-    .from(guestsTable)
-    .rightJoin(roomsTable, eq(roomsTable.roomNumber, guestsTable.guestRoomNumber))
-    .where(eq(guestsTable.guestContact, guestContact));
-
-  return occupiedRoom;
+  // left join guestsTable and roomsTable where guest contact matches
+  const roomByGuest = await db.select({
+    roomNumber: roomsTable.roomNumber,
+    guestId: guestsTable.guestId,
+    guestContact: guestsTable.guestContact
+  })
+  .from(roomsTable)
+  .leftJoin(guestsTable, eq(roomsTable.roomNumber, guestsTable.guestRoomNumber))
+  .where(eq(guestsTable.guestContact, guestContact));
+  return roomByGuest;
 }

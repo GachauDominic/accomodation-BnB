@@ -15,7 +15,7 @@ export const getAllGuestService = async () => {
 };
 
 // get guest by id
-export const guestByIdService = async (guestId:string) => {
+export const getGuestByIdService = async (guestId:string) => {
   const guest = await db.select({
   // guestId: guestsTable.guestId, 
   guestfirstName:guestsTable.guestfirstName, 
@@ -29,7 +29,7 @@ export const guestByIdService = async (guestId:string) => {
 };
 
 //  get guest by contact
-export const guestByContactService = async (guestContact:string) => {
+export const getGuestByContactService = async (guestContact:string) => {
   const guest = await db.select({
   guestId: guestsTable.guestId, 
   guestfirstName:guestsTable.guestfirstName, 
@@ -43,7 +43,7 @@ export const guestByContactService = async (guestContact:string) => {
 };
 
 // get guest by room num {join query}
-export const guestByRoomService = async (guestRoomNum:string) => {
+export const getGuestByRoomService = async (guestRoomNum:string) => {
  const guest = await db.select({
   guestId: guestsTable.guestId, 
   guestfirstName:guestsTable.guestfirstName, 

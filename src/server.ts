@@ -1,4 +1,5 @@
 import host from "./auth/auth.router"
+import bookings from "./bookings/booking.route"
 import guest from "./guests/guest.route"
 import rooms from "./rooms/room.route"
 
@@ -18,6 +19,7 @@ app.use(express.json())
 host(app)
 rooms(app)
 guest(app)
+bookings(app)
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Example app running on  http://localhost:${port}`))

@@ -1,6 +1,6 @@
 import { Express } from "express";
 import { Request,Response } from "express";
-import { createGuestService, deleteGuestService, getAllGuestService, guestByContactService, guestByIdService, guestByRoomService, updateGuestService } from "./guest.service";
+import { createGuestService, deleteGuestService, getAllGuestService, getGuestByContactService, getGuestByIdService, getGuestByRoomService, updateGuestService } from "./guest.service";
 
 // create guest
 // export const createGuestController = async (req:Request, res:Response) => {
@@ -48,7 +48,7 @@ export const guestByIdController = async (req: Request, res: Response) => {
      if (!guestId) {
        return res.status(400).json({message: "Guest Id required"})
      }
-     const guest = await guestByIdService(guestId)
+     const guest = await getGuestByIdService(guestId)
      if (!guest) {
        return res.status(404).json({message: "Guest not found!"})
      }
@@ -64,7 +64,7 @@ export const guestByContactController = async (req: Request, res: Response) => {
      if (!guestContact) {
        return res.status(400).json({message: "Guest contact required"})
      }
-     const guest = await guestByContactService(guestContact)
+     const guest = await getGuestByContactService(guestContact)
      if (!guest) {
        return res.status(404).json({message: "Guest not found!"})
      }
@@ -81,7 +81,7 @@ export const guestByRoomController = async (req: Request, res: Response) => {
      if (!guestRoomNum) {
        return res.status(400).json({message: "Room number of the guest required"})
      }
-     const guest = await guestByRoomService(guestRoomNum)
+     const guest = await getGuestByRoomService(guestRoomNum)
      if (!guest || guest.length === 0) {
        return res.status(404).json({message: "Guest not found!"})
      }
@@ -100,7 +100,7 @@ export const updateguestController = async (req: Request, res: Response) => {
     }
 
     const updateData = req.body
-    const existingGuest = await guestByContactService(guestContact)
+    const existingGuest = await getGuestByContactService(guestContact)
     if (!existingGuest || existingGuest.length === 0) {
       return res.status(404).json({ message: "Guest not found!" })
     }
@@ -109,7 +109,6 @@ export const updateguestController = async (req: Request, res: Response) => {
     if (!updatedGuest) {
       return res.status(400).json({ message: "Guest not updated!" })
     }
-
     return res.status(200).json({ message: "Guest updated successfully", data: updatedGuest })
   } catch (error: any) {
     return res.status(500).json({ error: error.message })
@@ -129,7 +128,7 @@ export const deleteGuestController = async (req: Request, res: Response) => {
     }
 
     const updateData = req.body
-    const existingGuest = await guestByContactService(guestContact)
+    const existingGuest = await getGuestByContactService(guestContact)
     if (!existingGuest) {
      return res.status(404).json({message: "Guest not found!"})
     }
