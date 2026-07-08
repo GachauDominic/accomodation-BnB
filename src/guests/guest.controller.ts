@@ -1,34 +1,57 @@
-import { Express } from "express";
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+import "dotenv/config"
 import { Request,Response } from "express";
-import { createGuestService, deleteGuestService, getAllGuestService, getGuestByContactService, getGuestByIdService, getGuestByRoomService, updateGuestService } from "./guest.service";
+import { createGuestService, deleteGuestService, getAllGuestService, getGuestByContactService, getGuestByIdService, getGuestByRoomService, loginGuestService, updateGuestService } from "./guest.service";
 
 // create guest
-// export const createGuestController = async (req:Request, res:Response) => {
-//    try{
-//     const guest = req.body;
-//     const password = guest.password;
-//     const hashedpassword = await bcrypt.hashSync(password, 10);
-//     guest.password = hashedpassword;
-
-//     const createGuest = await createGuestService(guest)
-//     if (!createGuest) return res.json({message: "Guest not created!"})
-//     return res.status(201).json({message: createGuest})
-
-//   } catch(error: any){
-//     return res.status(500).json({error: error.message})
-//   }
-// }
-
 export const createGuestController = async (req: Request, res: Response) => {
   try {
     const guest = req.body;
     const createdGuest = await createGuestService(guest);
     if (!createdGuest) return res.json({message: "Unable to create guest"})
-    return res.status(201).json({message: "Guest created"})
+    return res.status(201).json({message: "Guest created", data: guest})
   } catch (error: any) {
     return res.status(500).json({error: error.message})
   }
 };
+
+// login guest
+export const loginGuestController = async (req: Request, res: Response) => {
+  try {
+    const guest = req.body
+    const guestExist = await loginGuestService(guest)
+    if (!guestExist) return res.status(404).json({message: "Guest not found"})
+
+    // create payload
+    const payload = {
+      guestContact: guestExist.guestContact,
+      guestId: guestExist.guestId,
+      guestfirstName: guestExist.guestfirstName,
+      guestlastName: guestExist.guestlastName,
+
+      exp: Math.floor(Date.now() / 1000) + 60 // expire in 60sec
+    }
+
+    // generate JWT token
+    const secret = process.env.Jwt_SECRET as string
+    if (!secret) throw new Error("JWT_SECRET is not defined in your env variables")
+    
+    const token = jwt.sign(payload, secret)
+    return res.status(200).json({
+      message: "The login was successful",
+      token,
+      host: {
+      guestId: guestExist.guestId,
+      guestfirstName: guestExist.guestfirstName,
+      guestlastName: guestExist.guestlastName,
+      }
+    })
+
+  } catch (error: any) {
+    return res.status(500).json({error: error.message})
+  }
+}
 
 // get all guests
 export const getAllGuestController = async (req: Request, res: Response) => {
@@ -44,15 +67,17 @@ export const getAllGuestController = async (req: Request, res: Response) => {
 // get guest by id
 export const guestByIdController = async (req: Request, res: Response) => {
   try {
-     const guestId = req.params.guestId ?? req.body.guestId
-     if (!guestId) {
-       return res.status(400).json({message: "Guest Id required"})
-     }
-     const guest = await getGuestByIdService(guestId)
-     if (!guest) {
-       return res.status(404).json({message: "Guest not found!"})
-     }
-     return res.status(200).json({data: guest})
+    const guestId = req.params.guestId ?? req.body.guestId
+    if (!guestId) {
+      return res.status(400).json({message: "Guest Id required"})
+    }
+
+    // const ifGuestIdExist = await getGuestByIdService(guestId)
+    // if (!ifGuestIdExist) return res.status(404).json({message: "Guest not found"})
+    
+    const guest = await getGuestByIdService(guestId)
+    if (!guest || guest.length===0) { return res.status(404).json({message: "Guest not found!"}) }
+      return res.status(200).json({data: guest})
    } catch (error: any) {
      return res.status(500).json({error: error.message})
   }
@@ -65,7 +90,7 @@ export const guestByContactController = async (req: Request, res: Response) => {
        return res.status(400).json({message: "Guest contact required"})
      }
      const guest = await getGuestByContactService(guestContact)
-     if (!guest) {
+     if (!guest || guest.length===0) {
        return res.status(404).json({message: "Guest not found!"})
      }
      return res.status(200).json({data: guest})
@@ -99,13 +124,13 @@ export const updateguestController = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Guest contact is required" })
     }
 
-    const updateData = req.body
+    const guest = req.body
     const existingGuest = await getGuestByContactService(guestContact)
     if (!existingGuest || existingGuest.length === 0) {
       return res.status(404).json({ message: "Guest not found!" })
     }
 
-    const updatedGuest = await updateGuestService(guestContact, updateData)
+    const updatedGuest = await updateGuestService(guestContact, guest)
     if (!updatedGuest) {
       return res.status(400).json({ message: "Guest not updated!" })
     }
@@ -127,17 +152,14 @@ export const deleteGuestController = async (req: Request, res: Response) => {
       return res.status(400).json({message: "Guest contact is required"})      
     }
 
-    const updateData = req.body
     const existingGuest = await getGuestByContactService(guestContact)
     if (!existingGuest) {
      return res.status(404).json({message: "Guest not found!"})
     }
 
     const deletedGuest = await deleteGuestService(guestContact)
-    if (!deletedGuest) {
-      return res.status(400).json({message: "Guest not deleted!"})
-    }
-    return res.status(200).json({message: "Guest deleted successfully"})
+    if (!deletedGuest) return res.status(400).json({message: "Guest not deleted!"})
+      return res.status(200).json({message: "Guest deleted successfully"})
   } catch (error: any) {
     return res.status(500).json({error: error.message})
   }

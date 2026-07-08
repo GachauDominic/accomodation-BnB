@@ -8,6 +8,20 @@ export const createGuestService = async (guest:TIGuest) => {
   return newGuest
 }
 
+// login guest
+export const loginGuestService = async (guest: TIGuest) => {
+  const {guestContact} = guest; // guest in the parameter
+  return await db.query.guestsTable.findFirst({
+    columns: {
+      guestId: true,
+      guestfirstName: true,
+      guestlastName: true,
+      guestContact: true,
+    },
+    where: eq(guestsTable.guestContact, guestContact)
+  })
+};
+
 // get all guest
 export const getAllGuestService = async () => {
  const guests = await db.query.guestsTable.findMany()

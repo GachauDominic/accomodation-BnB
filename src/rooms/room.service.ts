@@ -9,7 +9,7 @@ export const getAllRoomsService = async () => {
 } 
 
 // get room by number
-export const getRoomService = async (roomNum:string) => {
+export const getRoomByNumService = async (roomNum:string) => {
   const room = await db.query.roomsTable.findFirst({where: eq(roomsTable.roomNumber, roomNum)})
   return room
 }

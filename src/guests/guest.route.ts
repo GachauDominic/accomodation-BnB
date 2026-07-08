@@ -1,5 +1,5 @@
 import { Express } from "express";
-import { createGuestController, deleteGuestController, getAllGuestController, guestByContactController, guestByIdController, guestByRoomController, updateguestController } from "./guest.controller";
+import { createGuestController, deleteGuestController, getAllGuestController, guestByContactController, guestByIdController, guestByRoomController, loginGuestController, updateguestController } from "./guest.controller";
 
 const guest = (app: Express)=>{
   // create guest
@@ -10,6 +10,15 @@ const guest = (app: Express)=>{
       next(error)
     }
   });
+
+  // login guest
+  app.route("/auth/guest/login").post(async (req, res, next) => {
+    try {
+      await loginGuestController(req, res)
+    } catch (error) {
+      next(error)
+    }
+  })
 
   // get all guest
   app.route("/auth/guests").get(async (req,res,next) => {

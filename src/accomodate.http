@@ -5,7 +5,15 @@ GET http://localhost:3000
 ###Create a Host
 POST http://localhost:3000/auth/register
 Content-Type: application/json 
-# remeber to put a white line here
+
+# {
+#   "firstName": "Dominic",
+#   "lastName": "Maina",
+#   "hostEmail": "dommaina@example.com",
+#   "hostContact": "0712345678",
+#   "hostPasswordHash": "dompassword123"
+# }
+
 {
  "firstName": "Jane",
  "lastName": "Red",
@@ -13,6 +21,21 @@ Content-Type: application/json
  "hostContact": "072320220",
  "hostPasswordHash": "jredpassword123"
 }
+
+### get all hosts
+GET http://localhost:3000/auth/hosts/get
+
+### login host
+POST http://localhost:3000/auth/loginhost
+Content-Type: application/json
+
+{
+  "hostEmail": "dommaina@example.com",
+  "hostPasswordHash": "dompassword123"
+}
+
+### delete host
+DELETE http://localhost:3000/auth/hosts/delete/5f32515f-160c-43aa-ad29-80edb4e77075
 
 # ROOMS
 ### Get all rooms
@@ -48,13 +71,13 @@ DELETE http://localhost:3000/auth/roomdelete/8B
 ###get room by guest contact
 GET http://localhost:3000/auth/room/roombycontact/0795063598
 
-###get vacant room 
+###get vacant rooms
 GET http://localhost:3000/rooms/vacantrooms
 
-###get booked room
+###get booked rooms
 GET http://localhost:3000/rooms/bookedrooms
 
-###get occupied room  
+###get occupied rooms 
 GET http://localhost:3000/rooms/occupiedrooms
 
 
@@ -67,10 +90,18 @@ POST http://localhost:3000/auth/guest/register
 Content-Type: application/json
 
 {
-  "guestRoomNumber": "7B",
-  "guestfirstName": "Dennis",
-  "guestlastName": "Ndichu",
-  "guestContact": "0722664404"
+  "guestRoomNumber": "1A",
+  "guestfirstName": "Duncan",
+  "guestlastName": "Mbichi",
+  "guestContact": "0709090806"
+}
+
+### login guest
+POST http://localhost:3000/auth/guest/login
+Content-Type: application/json
+
+{
+  "guestContact": "0795063598"
 }
 
 ### get guest by id
@@ -133,3 +164,126 @@ Content-Type: application/json
 ### delete a booking by its ID
 DELETE http://localhost:3000/auth/bookings/deletebyid/d566dc72-2208-4152-9c41-1760e4c6b273
 
+
+# Payments
+### create a payment
+POST  http://localhost:3000/payments/createpayment
+Content-Type: application/json
+
+{
+  "paymentBookingId": "c489b4c6-e1de-41c3-aa63-169a376af956",
+  "paymentMethod": "cash",
+  "paymentStatus": "confirmed"
+}
+
+### get all payments
+GET http://localhost:3000/auth/payments
+
+### get payment by its id
+GET http://localhost:3000/auth/payments/getpaymentbyid/06ce08ec-1067-43e0-af80-2517f32bb401
+
+### get payment by booking id
+GET http://localhost:3000/auth/payments/getpaymentbybookingid/c489b4c6-e1de-41c3-aa63-169a376af956
+
+### update payment by its id
+PATCH http://localhost:3000/auth/payments/update/e34c95c6-6ee5-42e4-b65c-1a8fdd549603
+Content-Type: application/json
+
+{
+  "paymentMethod": "MPesa_paybill",
+  "paymentStatus": "pending"
+}
+
+### delete payment
+DELETE  http://localhost:3000/auth/payments/delete/06ce08ec-1067-43e0-af80-2517f32bb401
+
+
+# REVIEWS
+### create a review
+POST http://localhost:3000
+Content-Type: application/json
+
+{
+
+}
+
+### get all reviews
+GET http://localhost:3000/auth/reviews
+
+### get a review by its id
+GET http://localhost:3000/auth/reviews/reviewbyid/55c3db54-8f4a-468b-86ef-d89c305d88b6
+
+### get review by room num
+GET http://localhost:3000/auth/reviews/reviewbyroomnum/5A
+
+### update a review by its id
+PATCH http://localhost:3000/auth/reviews/updatereviewbyid/55c3db54-8f4a-468b-86ef-d89c305d88b6
+Content-Type: application/json
+
+{
+  "reviewRating": 4
+}
+
+### delete a review by its id
+DELETE http://localhost:3000
+
+
+# ROOMS APPROVALS
+### create approval
+POST http://localhost:3000/auth/approval/create
+Content-Type: application/json
+
+{
+
+}
+
+###get all approvals
+GET  http://localhost:3000/auth/approvals
+
+### get approval by its id
+GET  http://localhost:3000/auth/approvals/approvalbyid/16c50506-4d2c-424d-84f0-0a206fc949ce
+
+### get approval by roomnum
+GET  http://localhost:3000/auth/approvals/approvalbyroomnum/5A
+
+### get approval by guest id
+GET http://localhost:3000/auth/approvals/approvalbyguestid/a0596df0-8fcf-46e0-9b76-1310cbd751af
+
+### get pending approvals
+GET http://localhost:3000/auth/approvals/pending
+
+### get approved approvals
+GET http://localhost:3000/auth/approvals/approved
+
+### get rejected approvals
+GET http://localhost:3000/auth/approvals/rejected
+
+### update approval by its id
+PATCH http://localhost:3000/auth/approvals/update/updatebyid/16c50506-4d2c-424d-84f0-0a206fc949ce
+Content-Type: application/json
+
+{
+  "roomAprovalStatus": "pending"
+}
+
+### update approval by room num
+PATCH http://localhost:3000/auth/approvals/update/updatebyroomnum/4A
+Content-Type: application/json
+
+{
+  "roomAprovalStatus": "rejected"
+}
+
+### update by guest id
+PATCH http://localhost:3000/auth/approvals/update/updatebyguestid/a0596df0-8fcf-46e0-9b76-1310cbd751af
+Content-Type: application/json
+
+{
+  "roomAprovalStatus": "approved"
+}
+
+### delete approval by its id
+DELETE http://localhost:3000/auth/approvals/delete/deletebyid/
+
+###delete approval by room num
+DELETE http://localhost:3000/auth/approvals/delete/deletebyroomnum

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createRoomService, getAllRoomsService, getRoomService, updateRoomService, deleteRoomService, getVacantRoomsService, getBookedRoomsService, getOccupiedRoomsService, getRoomByGuestService } from "./room.service";
+import { createRoomService, getAllRoomsService, getRoomByNumService, updateRoomService, deleteRoomService, getVacantRoomsService, getBookedRoomsService, getOccupiedRoomsService, getRoomByGuestService } from "./room.service";
 
 //create room
 export const createRoomController = async (req:Request, res: Response) => {
@@ -33,7 +33,7 @@ export const getRoomByNumController = async (req: Request, res: Response) => {
     if (!roomNum) {
       return res.status(400).json({message: "Room number is required"})
     }
-    const room = await getRoomService(roomNum)
+    const room = await getRoomByNumService(roomNum)
     if (!room) {
       return res.status(404).json({message: "Room not found!"})
     }
@@ -52,7 +52,7 @@ export const updateRoomController = async (req: Request, res: Response) => {
     }
 
     const updateData = req.body
-    const existingRoom = await getRoomService(roomNum)
+    const existingRoom = await getRoomByNumService(roomNum)
     if (!existingRoom) {
       return res.status(404).json({message: "Room not found!"})
     }
@@ -75,7 +75,7 @@ export const deleteRoomController = async (req: Request, res: Response) => {
       return res.status(400).json({message: "Room number is required"})
     }
 
-    const existingRoom = await getRoomService(roomNum)
+    const existingRoom = await getRoomByNumService(roomNum)
     if (!existingRoom) {
       return res.status(404).json({message: "Room not found!"})
     }
