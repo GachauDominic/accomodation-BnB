@@ -36,6 +36,15 @@ export const loginHostService = async (host: TIHost) => {
   })
 };
 
+// update host
+export const updateHostService = async (hostId: string, updateData: TIHost) => {
+  const updatedHost = await db.update(hostAdminTable)
+  .set(updateData)
+  .where(eq(hostAdminTable.hostAdminId, hostId))
+  .returning()
+  return updatedHost
+}
+
 // delete host by id
 export const deleteHostService = async (hostId: string) => {
   await db.delete(hostAdminTable).where(eq(hostAdminTable.hostAdminId, hostId))

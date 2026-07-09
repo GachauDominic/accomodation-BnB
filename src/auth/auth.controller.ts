@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createHostService, deleteHostService, getAllHostService, getHostByIdService, loginHostService } from "./auth.service";
+import { createHostService, deleteHostService, getAllHostService, getHostByIdService, loginHostService, updateHostService } from "./auth.service";
 import bcrypt from "bcryptjs"
 // import { hostAdminTable } from "../Drizzle/schema";
 import jwt from "jsonwebtoken";
@@ -95,6 +95,25 @@ export const loginHostController = async (req: Request, res: Response) => {
     return res.status(500).json({error: error.message})
   }
 }
+
+// update host
+export const updateHostController = async (req: Request, res: Response) => {
+  try {
+    const hostId = req.params.hostId ?? req.body.hostId
+    if(!hostId) return res.status(400).json({message: "Host id required"})
+    
+    const ifHostIdExist = await getHostByIdService(hostId)
+    if(!ifHostIdExist) return res.status(400).json({message: "Host not found"})
+
+    const host = req.body
+    const updatedHost = await updateHostService(hostId, host)
+    if(!updatedHost) return res.status(400).json({message: "Unable to update host"})
+      return res.status(200).json({message: "Host updated", data: updatedHost})
+  } catch (error: any) {
+    return res.status(500).json({error: error.message})
+  }
+};
+
 
 // delete host
 export const deleteHostController = async (req: Request, res: Response) => {

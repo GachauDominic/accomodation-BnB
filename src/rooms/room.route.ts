@@ -1,12 +1,12 @@
 import { Express } from "express";
 import { createRoomController, deleteRoomController, getAllRoomsController, getBookedRoomsController, getOccupiedRoomsController, getRoomByGuestController, getRoomByNumController, getVacantRoomsController, updateRoomController } from "./room.controller";
-// import { isAuthenticated } from "../middleware/bearAuth";
+import { adminRoleAuth, bothRoleAuth } from "../middleware/bearAuth";
 
 
 const rooms = (app: Express)=>{
   // create room
   app.route("/auth/createroom").post(
-    // isAuthenticated,
+    adminRoleAuth,
     async (req, res, next) => {
     try {
       await createRoomController(req, res)
@@ -17,7 +17,7 @@ const rooms = (app: Express)=>{
 
   //  get all rooms
   app.route("/auth/rooms").get(
-    // isAuthenticated,
+    adminRoleAuth,
     async (req, res, next) => {
       try {
         await getAllRoomsController(req, res)
@@ -28,7 +28,7 @@ const rooms = (app: Express)=>{
 
   // get room by number
   app.route("/auth/rooms/roombynum:roomNum").get(
-    // isAuthenticated,
+    bothRoleAuth,
     async (req, res, next) => {
       try {
         await getRoomByNumController(req, res)
@@ -39,7 +39,7 @@ const rooms = (app: Express)=>{
 
   // update room by num
   app.route("/auth/rooms/roomupdate/:roomNum").patch(
-    // isAuthenticated,
+    adminRoleAuth,
     async (req, res, next) => {
       try {
         await updateRoomController(req, res)
@@ -51,7 +51,7 @@ const rooms = (app: Express)=>{
 
   // delete a room by num
   app.route("/auth/rooms/roomdelete/:roomNum").delete(
-    // isAuthenticated,
+    adminRoleAuth,
     async (req, res, next) => {
       try {
         await deleteRoomController(req, res)
@@ -63,7 +63,7 @@ const rooms = (app: Express)=>{
 
   // get room by guest contact
   app.route("/auth/rooms/roombyguestcontact/:guestContact").get(
-    // isAuthenticated,
+    bothRoleAuth,
     async (req, res, next) => {
       try {
         await getRoomByGuestController(req, res)
@@ -75,7 +75,7 @@ const rooms = (app: Express)=>{
 
   // get all vacant rooms
   app.route("/auth/rooms/vacantrooms").get(
-    // isAuthenticated,
+    bothRoleAuth,
     async (req, res, next) => {
       try {
         await getVacantRoomsController(req, res)
@@ -87,7 +87,7 @@ const rooms = (app: Express)=>{
 
   // get all booked rooms
   app.route("/auth/rooms/bookedrooms").get(
-    // isAuthenticated,
+    adminRoleAuth,
     async (req, res, next) => {
       try {
         await getBookedRoomsController(req, res)
@@ -99,7 +99,7 @@ const rooms = (app: Express)=>{
   
   // get all occupied rooms
   app.route("/auth/rooms/occupiedrooms").get(
-    // isAuthenticated,
+    adminRoleAuth,
     async (req, res, next) => {
       try {
         await getOccupiedRoomsController(req, res)

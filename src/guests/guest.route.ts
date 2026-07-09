@@ -1,9 +1,12 @@
 import { Express } from "express";
 import { createGuestController, deleteGuestController, getAllGuestController, guestByContactController, guestByIdController, guestByRoomController, loginGuestController, updateguestController } from "./guest.controller";
+import { adminRoleAuth, bothRoleAuth } from "../middleware/bearAuth";
 
 const guest = (app: Express)=>{
   // create guest
-  app.route("/auth/guest/register").post(async (req,res,next) => {
+  app.route("/auth/guest/register").post(
+    bothRoleAuth,
+    async (req,res,next) => {
     try {
       await createGuestController(req,res)
     } catch (error) {
@@ -12,7 +15,9 @@ const guest = (app: Express)=>{
   });
 
   // login guest
-  app.route("/auth/guest/login").post(async (req, res, next) => {
+  app.route("/auth/guest/login").post(
+    bothRoleAuth,
+    async (req, res, next) => {
     try {
       await loginGuestController(req, res)
     } catch (error) {
@@ -21,7 +26,9 @@ const guest = (app: Express)=>{
   })
 
   // get all guest
-  app.route("/auth/guests").get(async (req,res,next) => {
+  app.route("/auth/guests").get(
+    adminRoleAuth,
+    async (req,res,next) => {
     try {
       await getAllGuestController(req, res)
     } catch (error) {
@@ -30,7 +37,9 @@ const guest = (app: Express)=>{
   });
 
   // get guest by id
-  app.route("/auth/guest/guestbyid/:guestId").get(async (req,res,next) => {
+  app.route("/auth/guest/guestbyid/:guestId").get(
+    bothRoleAuth,
+    async (req,res,next) => {
     try {
       await guestByIdController(req,res)
     } catch (error) {
@@ -39,7 +48,9 @@ const guest = (app: Express)=>{
   });
   
   // get guest by contact
-  app.route("/auth/guest/guestbycontact/:guestContact").get(async (req,res,next) => {
+  app.route("/auth/guest/guestbycontact/:guestContact").get(
+    bothRoleAuth,
+    async (req,res,next) => {
     try {
       await guestByContactController(req,res)
     } catch (error) {
@@ -48,7 +59,9 @@ const guest = (app: Express)=>{
   });
   
   // get guest by room num
-  app.route("/auth/guest/guestbyroomnum/:guestRoomNum").get(async (req,res,next) => {
+  app.route("/auth/guest/guestbyroomnum/:guestRoomNum").get(
+    bothRoleAuth,
+    async (req,res,next) => {
     try {
       await guestByRoomController(req,res)
     } catch (error) {
@@ -57,7 +70,9 @@ const guest = (app: Express)=>{
   });
 
   // update guest by contact
-  app.route("/auth/guest/updateguest/:guestContact").patch(async (req,res,next) => {
+  app.route("/auth/guest/updateguest/:guestContact").patch(
+    bothRoleAuth,
+    async (req,res,next) => {
     try {
       await updateguestController(req,res)
     } catch (error) {
@@ -66,7 +81,9 @@ const guest = (app: Express)=>{
   });
 
   // delete guest by id || contact
-  app.route("/auth/guest/deleteguest/:guestContact").delete(async (req, res, next) => {
+  app.route("/auth/guest/deleteguest/:guestContact").delete(
+    bothRoleAuth,
+    async (req, res, next) => {
     try {
       await deleteGuestController(req, res)
     } catch (error) {
