@@ -17,6 +17,7 @@ export const loginGuestService = async (guest: TIGuest) => {
       guestfirstName: true,
       guestlastName: true,
       guestContact: true,
+      role: true,
     },
     where: eq(guestsTable.guestContact, guestContact)
   })

@@ -1,5 +1,6 @@
 import { Express } from "express";
 import { createPaymentController, deletePaymentController, getAllPaymentsController, getPaymentByIdController, getPaymetByBookingIdController, updatepaymentController } from "./payments.controller";
+import { adminRoleAuth } from "../middleware/bearAuth";
 
 const payments = (app: Express)=>{
   // create payment
@@ -12,7 +13,9 @@ const payments = (app: Express)=>{
   });
 
   // get all payments
-  app.route("/auth/payments").get(async (req, res, next) => {
+  app.route("/auth/payments").get(
+    adminRoleAuth,
+    async (req, res, next) => {
     try {
       await getAllPaymentsController(req, res)
     } catch (error) {

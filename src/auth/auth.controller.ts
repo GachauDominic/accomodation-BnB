@@ -69,8 +69,9 @@ export const loginHostController = async (req: Request, res: Response) => {
       hostAdminId: hostExist.hostAdminId,
       firstName: hostExist.firstName,
       lastName: hostExist.lastName,
+      role: hostExist.role,
 
-      exp: Math.floor(Date.now() / 1000) + 60 // expire in 60sec
+      exp: Math.floor(Date.now() / 1000) + 60*60// expire in 1hr
     }
 
     // generate JWT token
@@ -85,7 +86,8 @@ export const loginHostController = async (req: Request, res: Response) => {
       hostAdminId: hostExist.hostAdminId,
       firstName: hostExist.firstName,
       lastName: hostExist.lastName,
-      hostEmail: hostExist.hostEmail
+      hostEmail: hostExist.hostEmail,
+      role: hostExist.role
       }
     })
 

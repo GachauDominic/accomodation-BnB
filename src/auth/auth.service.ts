@@ -29,7 +29,8 @@ export const loginHostService = async (host: TIHost) => {
       firstName: true,
       lastName: true,
       hostEmail: true,
-      hostPasswordHash: true
+      hostPasswordHash: true,
+      role: true,
     },
     where: eq(hostAdminTable.hostEmail, hostEmail)
   })

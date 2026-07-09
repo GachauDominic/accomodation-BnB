@@ -29,6 +29,7 @@ export const loginGuestController = async (req: Request, res: Response) => {
       guestId: guestExist.guestId,
       guestfirstName: guestExist.guestfirstName,
       guestlastName: guestExist.guestlastName,
+      role: guestExist.role,
 
       exp: Math.floor(Date.now() / 1000) + 60 // expire in 60sec
     }
@@ -45,6 +46,7 @@ export const loginGuestController = async (req: Request, res: Response) => {
       guestId: guestExist.guestId,
       guestfirstName: guestExist.guestfirstName,
       guestlastName: guestExist.guestlastName,
+      role: guestExist.role
       }
     })
 
