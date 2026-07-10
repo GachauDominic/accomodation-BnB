@@ -6,7 +6,7 @@ import { adminRoleAuth } from "../middleware/bearAuth";
 const host = (app: Express)=>{
   // create host
   app.route("/auth/register").post(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
       try{
         await createHostController(req, res)

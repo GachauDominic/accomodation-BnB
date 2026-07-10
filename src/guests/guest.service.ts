@@ -4,7 +4,7 @@ import { guestsTable, roomsTable, TIGuest } from "../Drizzle/schema";
 
 // create guest
 export const createGuestService = async (guest:TIGuest) => {
- const newGuest = await db.insert(guestsTable).values(guest).returning()
+  const newGuest = await db.insert(guestsTable).values(guest).returning()
   return newGuest
 }
 
@@ -14,8 +14,8 @@ export const loginGuestService = async (guest: TIGuest) => {
   return await db.query.guestsTable.findFirst({
     columns: {
       guestId: true,
-      guestfirstName: true,
-      guestlastName: true,
+      guestFirstName: true,
+      guestLastName: true,
       guestContact: true,
       role: true,
     },
@@ -33,8 +33,8 @@ export const getAllGuestService = async () => {
 export const getGuestByIdService = async (guestId:string) => {
   const guest = await db.select({
   // guestId: guestsTable.guestId, 
-  guestfirstName:guestsTable.guestfirstName, 
-  guestlastName: guestsTable.guestlastName, 
+  guestFirstName:guestsTable.guestFirstName, 
+  guestLastName: guestsTable.guestLastName, 
   guestContact: guestsTable.guestContact,
   guestRoomNumber: guestsTable.guestRoomNumber
   })
@@ -47,8 +47,8 @@ export const getGuestByIdService = async (guestId:string) => {
 export const getGuestByContactService = async (guestContact:string) => {
   const guest = await db.select({
   guestId: guestsTable.guestId, 
-  guestfirstName:guestsTable.guestfirstName, 
-  guestlastName: guestsTable.guestlastName, 
+  guestFirstName:guestsTable.guestFirstName, 
+  guestLastName: guestsTable.guestLastName, 
   // guestContact: guestsTable.guestContact,
   guestRoomNumber: guestsTable.guestRoomNumber
   })
@@ -61,8 +61,8 @@ export const getGuestByContactService = async (guestContact:string) => {
 export const getGuestByRoomService = async (guestRoomNum:string) => {
  const guest = await db.select({
   guestId: guestsTable.guestId, 
-  guestfirstName:guestsTable.guestfirstName, 
-  guestlastName: guestsTable.guestlastName, 
+  guestFirstName:guestsTable.guestFirstName, 
+  guestLastName: guestsTable.guestLastName, 
   guestContact: guestsTable.guestContact,
   // guestRoomNumber: guestsTable.guestRoomNumber
  })

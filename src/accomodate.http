@@ -6,21 +6,21 @@ GET http://localhost:3000
 POST http://localhost:3000/auth/register
 Content-Type: application/json 
 
-# {
-#   "firstName": "Dominic",
-#   "lastName": "Maina",
-#   "hostEmail": "dommaina@example.com",
-#   "hostContact": "0712345678",
-#   "hostPasswordHash": "dompassword123"
-# }
-
 {
- "firstName": "Jane",
- "lastName": "Red",
- "hostEmail": "jred@example.com",
- "hostContact": "072320220",
- "hostPasswordHash": "jredpassword123"
+  "firstName": "Dominic",
+  "lastName": "Maina",
+  "hostEmail": "dommaina@example.com",
+  "hostContact": "0712345678",
+  "hostPasswordHash": "dompassword123"
 }
+
+# {
+#  "firstName": "Jane",
+#  "lastName": "Red",
+#  "hostEmail": "jred@example.com",
+#  "hostContact": "072320220",
+#  "hostPasswordHash": "jredpassword123"
+# }
 
 ### get all hosts
 GET http://localhost:3000/auth/hosts/get
@@ -90,11 +90,35 @@ POST http://localhost:3000/auth/guest/register
 Content-Type: application/json
 
 {
-  "guestRoomNumber": "1A",
-  "guestfirstName": "Duncan",
-  "guestlastName": "Mbichi",
-  "guestContact": "0709090806"
+  "guestFirstName": "Dom",
+  "guestLastName": "Maish",
+  "guestContact": "0700000000",
+  "guestEmail": "gachaudominic@gmail.com",
+  "guestPassword": "dom@123"
 }
+# {
+#   "guestFirstName": "John",
+#   "guestLastName": "Kiai",
+#   "guestContact": "0795063598",
+#   "guestEmail": "johnkiai@example.com",
+#   "guestPassword": "jkiai@123"
+# }
+
+# {
+#   "guestFirstName": "Mitch",
+#   "guestLastName": "Nduta",
+#   "guestContact": "0725638931",
+#   "guestEmail": "mnduta@example.com",
+#   "guestPassword": "mnduta@123"
+
+# },
+# {
+#   "guestFirstName": "John",
+#   "guestLastName": "Kiamba",
+#   "guestContact": "0747892890",
+#   "guestEmail": "johnkiamba@example.com",
+#   "guestPassword": "jkiamba@123"
+# }
 
 ### login guest
 POST http://localhost:3000/auth/guest/login

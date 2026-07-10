@@ -5,7 +5,7 @@ import { adminRoleAuth, bothRoleAuth } from "../middleware/bearAuth";
 const guest = (app: Express)=>{
   // create guest
   app.route("/auth/guest/register").post(
-    bothRoleAuth,
+    adminRoleAuth,
     async (req,res,next) => {
     try {
       await createGuestController(req,res)

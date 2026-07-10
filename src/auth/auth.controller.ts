@@ -12,7 +12,7 @@ export const createHostController = async (req:Request, res:Response) => {
   try{
     const host = req.body;
     const hostPasswordHash = host.hostPasswordHash;
-    const hashedpassword = await bcrypt.hashSync(hostPasswordHash, 10);
+    const hashedpassword = await bcrypt.hashSync(hostPasswordHash, 5);
     host.hostPasswordHash = hashedpassword;
 
     const createdHost = await createHostService(host)

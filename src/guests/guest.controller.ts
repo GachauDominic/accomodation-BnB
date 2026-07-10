@@ -3,14 +3,45 @@ import jwt from "jsonwebtoken"
 import "dotenv/config"
 import { Request,Response } from "express";
 import { createGuestService, deleteGuestService, getAllGuestService, getGuestByContactService, getGuestByIdService, getGuestByRoomService, loginGuestService, updateGuestService } from "./guest.service";
+import { sendMail } from "../mailer/mailer";
 
 // create guest
 export const createGuestController = async (req: Request, res: Response) => {
   try {
     const guest = req.body;
+    const password = guest.guestPassword;
+    const hashedPass = await bcrypt.hashSync(password, 5);
+    guest.guestPassword = hashedPass
+
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    guest.verificationCode = verificationCode;
+    guest.isVerified = false;
+    
     const createdGuest = await createGuestService(guest);
-    if (!createdGuest) return res.json({message: "Unable to create guest"})
-    return res.status(201).json({message: "Guest created", data: guest})
+    if (!createdGuest) {
+      return res.status(400).json({ message: "Unable to create guest" })
+    }
+    try {
+      await sendMail(
+        guest.guestEmail,
+        "Verify your account",
+        `Hello ${guest.guestLastName}, your verification code is: ${verificationCode}`,
+        `<div>
+          <h2>Hello ${guest.guestLastName},</h2>
+          <p>Your verification code is: <strong> ${verificationCode} </strong> </p>
+          <p>Enter the code to verify your account</p>
+        </div>`
+      )
+    } catch (emailError: unknown) {
+      console.error("Failed to send registration email:", emailError)
+      return res.status(201).json({
+        message: "Guest created, but verification email could not be sent",
+        data: createdGuest,
+        emailError: emailError instanceof Error ? emailError.message : "Unknown email error",
+      })
+    }
+
+    return res.status(201).json({ message: "Guest created", data: createdGuest })
   } catch (error: any) {
     return res.status(500).json({error: error.message})
   }
@@ -27,8 +58,8 @@ export const loginGuestController = async (req: Request, res: Response) => {
     const payload = {
       guestContact: guestExist.guestContact,
       guestId: guestExist.guestId,
-      guestfirstName: guestExist.guestfirstName,
-      guestlastName: guestExist.guestlastName,
+      guestFirstName: guestExist.guestFirstName,
+      guestLastName: guestExist.guestLastName,
       role: guestExist.role,
 
       exp: Math.floor(Date.now() / 1000) + 60 // expire in 60sec
@@ -44,8 +75,8 @@ export const loginGuestController = async (req: Request, res: Response) => {
       token,
       host: {
       guestId: guestExist.guestId,
-      guestfirstName: guestExist.guestfirstName,
-      guestlastName: guestExist.guestlastName,
+      guestFirstName: guestExist.guestFirstName,
+      guestLastName: guestExist.guestLastName,
       role: guestExist.role
       }
     })
