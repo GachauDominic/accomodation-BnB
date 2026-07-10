@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import "dotenv/config"
 import { Request,Response } from "express";
-import { createGuestService, deleteGuestService, getAllGuestService, getGuestByContactService, getGuestByIdService, getGuestByRoomService, loginGuestService, updateGuestService } from "./guest.service";
+import { createGuestService, deleteGuestByIdService, deleteGuestService, getAllGuestService, getGuestByContactService, getGuestByIdService, getGuestByRoomService, loginGuestService, updateGuestService } from "./guest.service";
 import { sendMail } from "../mailer/mailer";
 
 // create guest
@@ -193,6 +193,23 @@ export const deleteGuestController = async (req: Request, res: Response) => {
     const deletedGuest = await deleteGuestService(guestContact)
     if (!deletedGuest) return res.status(400).json({message: "Guest not deleted!"})
       return res.status(200).json({message: "Guest deleted successfully"})
+  } catch (error: any) {
+    return res.status(500).json({error: error.message})
+  }
+}
+
+// delete guest by id 
+export const deleteGuestByIdController = async (req: Request, res: Response) => {
+  try {
+    const guestId = req.params.guestId ?? req.body.guestId
+    if(!guestId)return res.status(400).json({message: "Guest id is required"})
+
+    const guestIdExist = await getGuestByIdService(guestId)
+    if(!guestIdExist) return res.status(404).json({message: "Guest Id does not exist"})
+
+    const deletedGuest = await deleteGuestByIdService(guestId)
+    if(!deletedGuest) return res.status(404).json({message: "Unable to delete the guest"})
+      return res.status(200).json({message: "The guest was deleted successfuly"})
   } catch (error: any) {
     return res.status(500).json({error: error.message})
   }

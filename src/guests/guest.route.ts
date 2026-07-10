@@ -80,9 +80,10 @@ const guest = (app: Express)=>{
     }
   });
 
-  // delete guest by id || contact
-  app.route("/auth/guest/deleteguest/:guestContact").delete(
-    bothRoleAuth,
+  // delete guest by contact
+  app.route("/auth/guest/deleteguestbycontact/:guestContact").delete(
+    // bothRoleAuth,
+    adminRoleAuth,
     async (req, res, next) => {
     try {
       await deleteGuestController(req, res)
@@ -90,5 +91,19 @@ const guest = (app: Express)=>{
       next(error)
     }
   });
+
+  // delete guest by id 
+  app.route("/auth/guest/deleteguestbyid/:guestId").delete(
+    // bothRoleAuth,
+    adminRoleAuth,
+    async (req, res, next) => {
+    try {
+      await deleteGuestController(req, res)
+    } catch (error) {
+      next(error)
+    }
+  });
+
+
 }
 export default guest;
