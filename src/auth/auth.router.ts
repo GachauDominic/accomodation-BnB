@@ -39,7 +39,7 @@ const host = (app: Express)=>{
   )
 
   // update host
-  app.route("/auth/hosts/update").patch(
+  app.route("/auth/hosts/update/:hostAdminId").patch(
     adminRoleAuth,
     async (req, res, next) => {
     try {

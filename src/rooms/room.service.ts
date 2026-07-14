@@ -1,10 +1,22 @@
-import { eq } from "drizzle-orm";
+import { desc, eq, asc} from "drizzle-orm";
 import db from "../Drizzle/db";
 import { roomsTable, TIRoom, TSRoom, guestsTable, bookingsTable } from "../Drizzle/schema";
 
+// create room
+export const createRoomService = async (room:TIRoom) => {
+  const insertedRoom = await db.insert(roomsTable).values(room).returning()
+  if (insertedRoom) {
+    return insertedRoom
+  }
+  return null
+};
+
 // get all rooms
 export const getAllRoomsService = async () => {
-  const rooms = await db.query.roomsTable.findMany()
+  const rooms = await db.query.roomsTable.findMany({
+    orderBy: [asc(roomsTable.roomNumber)],
+  })
+  
   return rooms
 } 
 
@@ -13,15 +25,6 @@ export const getRoomByNumService = async (roomNum:string) => {
   const room = await db.query.roomsTable.findFirst({where: eq(roomsTable.roomNumber, roomNum)})
   return room
 }
-
-// create room
-export const createRoomService = async (room:TIRoom) => {
-  const insertedRoom = await db.insert(roomsTable).values(room);
-  if (insertedRoom) {
-    return insertedRoom
-  }
-  return null
-};
 
 // update room
 export const updateRoomService = async(roomNum: string, updateRoom: Partial<TIRoom>)=>{
@@ -53,13 +56,17 @@ export const getOccupiedRoomsService = async () => {
     guestsTable,
     eq(bookingsTable.bookingGuestId, guestsTable.guestId)
   )
-  .where(eq(roomsTable.roomstatus, "occupied"));
+  .where(eq(roomsTable.roomstatus, "occupied"))
+  .orderBy(asc(roomsTable.roomNumber));
   return occupiedRooms;
 }
 
 //  get vacant rooms
 export const getVacantRoomsService = async () => {
-  const vacantRooms = await db.query.roomsTable.findMany({where: eq(roomsTable.roomstatus, "vacant")})
+  const vacantRooms = await db.query.roomsTable.findMany({
+    where: eq(roomsTable.roomstatus, "vacant"),
+    orderBy: [asc(roomsTable.roomNumber)],
+  })
   return vacantRooms;
 }
 
@@ -80,6 +87,7 @@ export const getBookedRoomsService = async () => {
     roomsTable,
     eq(bookingsTable.bookingRoomNumber, roomsTable.roomNumber)
   )
+  .orderBy(asc(roomsTable.roomNumber));
   return bookedRooms;
 }
 

@@ -6,8 +6,9 @@ export const createRoomController = async (req:Request, res: Response) => {
   try {
     const room = req.body
     const createdRoom = await createRoomService(room)
+
     if (!createdRoom) return res.json({message: "Room not created"})
-    return res.status(201).json({message: "Room created successfully", data: createdRoom})
+      return res.status(201).json({message: "Room created successfully", data: createdRoom})
   } catch(error: any){
     return res.status(500).json({error: error.message})
   }

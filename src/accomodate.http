@@ -39,10 +39,10 @@ DELETE http://localhost:3000/auth/hosts/delete/5f32515f-160c-43aa-ad29-80edb4e77
 
 # ROOMS
 ### Get all rooms
-GET http://localhost:3000/rooms
+GET http://localhost:3000/auth/rooms/getall
 
 ###create a room
-POST http://localhost:3000/auth/createroom
+POST http://localhost:3000/auth/rooms/create
 Content-Type: application/json
 
 {
@@ -50,8 +50,15 @@ Content-Type: application/json
   "roomDescription": "Studio apartment: one bathroom, one bedroom, one dinning room, balcony, dinner and breakfast included",
   "address": "Pamki Building, Kimathi way Nyeri down town",
   "maxGuest": 2,
-  "pricePerNight": "2000.00",
-  "roomstatus": "vacant"
+  "pricePerNight": "2000.00"
+}
+
+{
+  "roomNumber": "1A",
+  "roomDescription": "Bedsitter: one bathroom, one bed, dinner and breakfast included",
+  "address": "Pamki Building, Kimathi way Nyeri down town",
+  "maxGuest": 2,
+  "pricePerNight": "1500.00"
 }
 
 ###get room by num
@@ -65,9 +72,6 @@ Content-Type: application/json
   "roomstatus": "booked"
 }
 
-###delete room by number
-DELETE http://localhost:3000/auth/roomdelete/8B
-
 ###get room by guest contact
 GET http://localhost:3000/auth/room/roombycontact/0795063598
 
@@ -80,6 +84,8 @@ GET http://localhost:3000/rooms/bookedrooms
 ###get occupied rooms 
 GET http://localhost:3000/rooms/occupiedrooms
 
+###delete room by number
+DELETE http://localhost:3000/auth/rooms/roomdelete/8B
 
 # GUESTS
 ### Get all guests

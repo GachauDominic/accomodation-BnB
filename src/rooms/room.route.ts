@@ -5,8 +5,8 @@ import { adminRoleAuth, bothRoleAuth } from "../middleware/bearAuth";
 
 const rooms = (app: Express)=>{
   // create room
-  app.route("/auth/createroom").post(
-    adminRoleAuth,
+  app.route("/auth/rooms/create").post(
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await createRoomController(req, res)
@@ -16,8 +16,8 @@ const rooms = (app: Express)=>{
   });
 
   //  get all rooms
-  app.route("/auth/rooms").get(
-    adminRoleAuth,
+  app.route("/auth/rooms/getall").get(
+    // adminRoleAuth,
     async (req, res, next) => {
       try {
         await getAllRoomsController(req, res)
@@ -27,7 +27,7 @@ const rooms = (app: Express)=>{
     });
 
   // get room by number
-  app.route("/auth/rooms/roombynum:roomNum").get(
+  app.route("/auth/rooms/roombynum/:roomNum").get(
     bothRoleAuth,
     async (req, res, next) => {
       try {
@@ -37,31 +37,7 @@ const rooms = (app: Express)=>{
       }
     });
 
-  // update room by num
-  app.route("/auth/rooms/roomupdate/:roomNum").patch(
-    adminRoleAuth,
-    async (req, res, next) => {
-      try {
-        await updateRoomController(req, res)
-      } catch (error) {
-        next(error)
-      }
-    }
-  );
-
-  // delete a room by num
-  app.route("/auth/rooms/roomdelete/:roomNum").delete(
-    adminRoleAuth,
-    async (req, res, next) => {
-      try {
-        await deleteRoomController(req, res)
-      } catch (error) {
-        next(error)
-      }
-    }
-  );
-
-  // get room by guest contact
+   // get room by guest contact
   app.route("/auth/rooms/roombyguestcontact/:guestContact").get(
     bothRoleAuth,
     async (req, res, next) => {
@@ -103,6 +79,30 @@ const rooms = (app: Express)=>{
     async (req, res, next) => {
       try {
         await getOccupiedRoomsController(req, res)
+      } catch (error) {
+        next(error)
+      }
+    }
+  );
+
+   // update room by num
+  app.route("/auth/rooms/roomupdate/:roomNum").patch(
+    adminRoleAuth,
+    async (req, res, next) => {
+      try {
+        await updateRoomController(req, res)
+      } catch (error) {
+        next(error)
+      }
+    }
+  );
+  
+  // delete a room by num
+  app.route("/auth/rooms/roomdelete/:roomNum").delete(
+    // adminRoleAuth,
+    async (req, res, next) => {
+      try {
+        await deleteRoomController(req, res)
       } catch (error) {
         next(error)
       }
