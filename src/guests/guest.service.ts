@@ -87,6 +87,7 @@ export const deleteGuestService = async (guestContact:string) => {
   return "Guest deleted"
 }
 
+// delete guest by id
 export const deleteGuestByIdService = async (guestId: string) => {
   await db.delete(guestsTable).where(eq(guestsTable.guestId,guestId))
   return "Guest deleted"

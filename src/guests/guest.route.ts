@@ -27,7 +27,7 @@ const guest = (app: Express)=>{
 
   // get all guest
   app.route("/auth/guests").get(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req,res,next) => {
     try {
       await getAllGuestController(req, res)
@@ -71,7 +71,7 @@ const guest = (app: Express)=>{
 
   // update guest by contact
   app.route("/auth/guest/updateguest/:guestContact").patch(
-    bothRoleAuth,
+    // bothRoleAuth,
     async (req,res,next) => {
     try {
       await updateguestController(req,res)

@@ -1,6 +1,6 @@
 //  the routes define the paths
 import { Express} from "express";
-import { createHostController, deleteHostController, getAllHostcontroller, loginHostController, updateHostController } from "./auth.controller";
+import { createHostController, deleteHostController, getAllHostcontroller, getHostByIDController, loginHostController, updateHostController } from "./auth.controller";
 import { adminRoleAuth } from "../middleware/bearAuth";
 
 const host = (app: Express)=>{
@@ -16,9 +16,21 @@ const host = (app: Express)=>{
     }
   )
 
+  // get host by id
+  app.route("/auth/hosts/getbyid/:hostAdminId").get(
+    // adminRoleAuth,
+    async (req, res, next) => {
+      try {
+        await getHostByIDController(req, res)
+      } catch (error) {
+        next(error)
+      }
+    }
+  )
+
 // get all hosts
   app.route("/auth/hosts/get").get(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await getAllHostcontroller(req, res)

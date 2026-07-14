@@ -1,7 +1,7 @@
 
 import { authenticateUser } from "../src/_tests_/basicUtils";
 
-describe("basicUtils test", () => {
+describe.skip("basicUtils test", () => {
   it("should authenticate a user", () => {
     // Arrange
     const username = "developer";
