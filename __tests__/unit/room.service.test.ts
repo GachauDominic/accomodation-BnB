@@ -157,7 +157,7 @@ describe("roomServices", ()=>{
       }];
       (db.query.roomsTable.findFirst as jest.Mock).mockResolvedValue(mockRoom)
 
-      const result = await getRoomByNumService([mockRoom])
+      const result = await getRoomByNumService(roomNum)
       expect(db.query.roomsTable.findFirst).toHaveBeenCalled()
       expect(result).toEqual(mockRoom)
     }),
@@ -168,41 +168,66 @@ describe("roomServices", ()=>{
 
       const result = await getRoomByNumService("invalid")
       expect(db.query.roomsTable.findFirst).toHaveBeenCalled()
+      // expect(result).toBeNull()
       expect(result).toBeUndefined()
     });
   })
 
   // get occupied rooms
-  describe.skip("getOccupiedRoomsService", () => {
-    it("should return the first occupied room with its guest id", async () => {
-      const occupiedRoom = {
-        roomNumber: "1A",
-        guestId: "guest-1",
-      }
-      const orderByMock = jest.fn().mockResolvedValue([occupiedRoom])
-      const whereMock = jest.fn().mockReturnValue({ orderBy: orderByMock })
-      const secondInnerJoinMock = jest.fn().mockReturnValue({ where: whereMock })
-      const firstInnerJoinMock = jest.fn().mockReturnValue({
-        innerJoin: secondInnerJoinMock,
-      })
-      const fromMock = jest.fn().mockReturnValue({
-        innerJoin: firstInnerJoinMock,
-      })
-      ;(db.select as jest.Mock).mockReturnValue({ from: fromMock })
+  describe("getOccupiedRoomsService", () => {
+    it("should return the all occupied rooms", async () => {
+    const occupiedRooms = [
+      {
+        "roomNumber": "2A",
+        "guestId": "guest-1",
+      },
+      {
+        "roomNumber": "3A",
+        "guestId": "guest-2",
+      },
+    ];
 
-      const result = await getOccupiedRoomsService()
+    const orderByMock = jest.fn().mockResolvedValue([occupiedRooms]);
+    const whereMock = jest.fn().mockReturnValue({ orderBy: orderByMock });
+    const secondInnerJoinMock = jest.fn().mockReturnValue({
+      where: whereMock,
+    });
+    const firstInnerJoinMock = jest.fn().mockReturnValue({
+      innerJoin: secondInnerJoinMock,
+    });
+    const fromMock = jest.fn().mockReturnValue({
+      innerJoin: firstInnerJoinMock,
+    });
 
-      expect(db.select).toHaveBeenCalledWith({
-        roomNumber: roomsTable.roomNumber,
-        guestId: guestsTable.guestId,
-      })
-      expect(fromMock).toHaveBeenCalledWith(bookingsTable)
-      expect(firstInnerJoinMock).toHaveBeenCalledWith(roomsTable, expect.anything())
-      expect(secondInnerJoinMock).toHaveBeenCalledWith(guestsTable, expect.anything())
-      expect(whereMock).toHaveBeenCalledWith(expect.anything())
-      expect(orderByMock).toHaveBeenCalledWith(expect.anything())
-      expect(result).toEqual(occupiedRoom)
-    })
+    (db.select as jest.Mock).mockReturnValue({
+      from: fromMock,
+    });
+
+    const result = await getOccupiedRoomsService();
+
+    expect(db.select).toHaveBeenCalledWith({
+      roomNumber: roomsTable.roomNumber,
+      guestId: guestsTable.guestId,
+    });
+    expect(fromMock).toHaveBeenCalledWith(bookingsTable);
+    expect(firstInnerJoinMock).toHaveBeenCalledWith(
+      roomsTable,
+      expect.anything()
+    );
+    expect(secondInnerJoinMock).toHaveBeenCalledWith(
+      guestsTable,
+      expect.anything()
+    );
+    expect(whereMock).toHaveBeenCalledWith(expect.anything());
+    expect(orderByMock).toHaveBeenCalledWith(expect.anything());
+
+    // The service returns only the first element.
+    expect(result).toEqual([occupiedRooms][0]);
+
+    // The service returns all occupied rooms
+    expect(result).toEqual(occupiedRooms);
+
+  });
 
     it("should return undefined when no occupied rooms are found", async () => {
       const orderByMock = jest.fn().mockResolvedValue([])
@@ -236,11 +261,18 @@ describe("roomServices", ()=>{
           pricePerNight: "1500.00",
           roomstatus: "vacant",
         },
+        {
+          "roomNumber": "3A",
+          "roomDescription": "One bedroom: one bathroom, one dinning room, dinner and breakfast included",
+          "address": "Pamki Building, Kimathi way Nyeri down town",
+          "maxGuest": 3,
+          "pricePerNight": "2000.00",
+          "roomstatus": "vacant"
+        },
       ]
       ;(db.query.roomsTable.findMany as jest.Mock).mockResolvedValue(vacantRooms)
 
       const result = await getVacantRoomsService()
-
       expect(db.query.roomsTable.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
           where: expect.anything(),
