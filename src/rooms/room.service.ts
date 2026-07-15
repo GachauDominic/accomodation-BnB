@@ -5,10 +5,7 @@ import { roomsTable, TIRoom, TSRoom, guestsTable, bookingsTable } from "../Drizz
 // create room
 export const createRoomService = async (room:TIRoom) => {
   const insertedRoom = await db.insert(roomsTable).values(room).returning()
-  if (insertedRoom) {
-    return insertedRoom
-  }
-  return null
+  return insertedRoom ?? null
 };
 
 // get all rooms
@@ -24,21 +21,6 @@ export const getAllRoomsService = async () => {
 export const getRoomByNumService = async (roomNum:string) => {
   const room = await db.query.roomsTable.findFirst({where: eq(roomsTable.roomNumber, roomNum)})
   return room
-}
-
-// update room
-export const updateRoomService = async(roomNum: string, updateRoom: Partial<TIRoom>)=>{
-  const updatedRoom = await db.update(roomsTable)
-  .set(updateRoom)
-  .where(eq(roomsTable.roomNumber, roomNum))
-  .returning()
-  return updatedRoom;
-}
-
-// delete room by roomNum
-export const deleteRoomService = async (roomNum:string) => {
-  await db.delete(roomsTable).where(eq(roomsTable.roomNumber, roomNum)).returning();
-  return "Room deleted";
 }
 
 //  get occupied rooms
@@ -104,3 +86,19 @@ export const getRoomByGuestService = async (guestContact: string) => {
   .where(eq(guestsTable.guestContact, guestContact));
   return roomByGuest;
 }
+
+// update room
+export const updateRoomService = async(roomNum: string, updateRoom: Partial<TIRoom>)=>{
+  const updatedRoom = await db.update(roomsTable)
+  .set(updateRoom)
+  .where(eq(roomsTable.roomNumber, roomNum))
+  .returning()
+  return updatedRoom ?? null
+}
+
+// delete room by roomNum
+export const deleteRoomService = async (roomNum:string) => {
+  await db.delete(roomsTable).where(eq(roomsTable.roomNumber, roomNum)).returning();
+  return "Room deleted";
+}
+

@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, afterEach } from "@jest/globals";
+import { describe, it, beforeEach, afterEach, expect } from "@jest/globals";
 import { createGuestService, getAllGuestService, getGuestByContactService, getGuestByRoomService, loginGuestService, updateGuestService, deleteGuestService } from "../../src/guests/guest.service"
 import * as db from "../../src/Drizzle/db"
 import { guestsTable } from "../../src/Drizzle/schema";
@@ -49,6 +49,7 @@ describe("Guest services", () => {
         guestEmail: "Mikel@example.com",
         guestPassword: "mikel@123"
       };
+
       const result = await createGuestService(guest)
       expect(db.insert).toHaveBeenCalled()
       expect(result).toContainEqual(expect.objectContaining(guest))
@@ -285,6 +286,7 @@ describe("Guest services", () => {
   it("should delete a guest from the db and return a message", async () => {
     const guestContact = "070865564";
     
+    // not there ia a returning mock since the actual service itself doesn't and thus the where clause is undefined
     const whereMock = jest.fn().mockResolvedValue(undefined); // Must be awaitable
     (db.delete as jest.Mock).mockReturnValue({
       where: whereMock,
