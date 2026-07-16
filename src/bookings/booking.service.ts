@@ -5,8 +5,8 @@ import bookings from "./booking.route";
 
 // create a booking
 export const createBookingService = async (booking: TIBooking) => {
-  await db.insert(bookingsTable).values(booking)
-  return "Booking created"
+  const newBooking = await db.insert(bookingsTable).values(booking).returning()
+  return newBooking ?? null
 };
 
 // get all bookings
