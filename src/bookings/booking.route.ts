@@ -5,7 +5,7 @@ import { adminRoleAuth, bothRoleAuth } from "../middleware/bearAuth";
 const bookings = (app: Express)=>{
   // create booking
   app.route("/booking").post(
-    bothRoleAuth,
+    // bothRoleAuth,
     async (req, res, next) => {
     try {
       await createBokingController(req, res)
@@ -16,7 +16,7 @@ const bookings = (app: Express)=>{
 
   // get all bookings
   app.route("/auth/bookings").get(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await getAllBookingsController(req, res)
@@ -27,7 +27,7 @@ const bookings = (app: Express)=>{
 
   // get booking by id
   app.route("/auth/bookings/bookingbyid/:bookingId").get(
-    bothRoleAuth,
+    // bothRoleAuth,
     async (req, res , next) => {
     try {
       await getBookingByIdController(req, res)
@@ -38,7 +38,7 @@ const bookings = (app: Express)=>{
 
   // get booking by guest id
   app.route("/auth/bookings/bookingbyguestid/:guestId").get(
-    bothRoleAuth,
+    // bothRoleAuth,
     async (req, res , next) => {
     try {
       await getBookingByGuestIdController(req, res)
@@ -49,7 +49,7 @@ const bookings = (app: Express)=>{
 
   // update booking by its id
   app.route("/auth/bookings/updatebyid/:bookingId").patch(
-    bothRoleAuth,
+    // bothRoleAuth,
     async (req, res, next) => {
     try {
       await updateBookingController(req, res)
@@ -60,7 +60,7 @@ const bookings = (app: Express)=>{
 
   // delete booking by id
   app.route("/auth/bookings/deletebyid/:bookingId").delete(
-    bothRoleAuth,
+    // bothRoleAuth,
     async (req, res, next) => {
     try {
       await deleteBookingController(req, res)

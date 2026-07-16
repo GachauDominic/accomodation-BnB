@@ -25,16 +25,16 @@ export const getRoomByNumService = async (roomNum:string) => {
 
 //  get occupied rooms
 export const getOccupiedRoomsService = async () => {
-  const [occupiedRooms] = await db.select({
+  const occupiedRooms = await db.select({
     roomNumber: roomsTable.roomNumber,
     guestId: guestsTable.guestId,
   })
-  .from(bookingsTable)
-  .innerJoin(
-    roomsTable,
+  .from(roomsTable)
+  .leftJoin(
+    bookingsTable,
     eq(bookingsTable.bookingRoomNumber, roomsTable.roomNumber)
   )
-  .innerJoin(
+  .leftJoin(
     guestsTable,
     eq(bookingsTable.bookingGuestId, guestsTable.guestId)
   )
@@ -55,9 +55,9 @@ export const getVacantRoomsService = async () => {
 // get booked rooms
 export const getBookedRoomsService = async () => {
   const bookedRooms = await db.select({
-    bookingId: bookingsTable.bookingId,
-    guestId: guestsTable.guestId,
     roomNumber: roomsTable.roomNumber,
+    roomDescription: roomsTable.roomDescription,
+    bookingId: bookingsTable.bookingId,
     price: roomsTable.pricePerNight,
   })
   .from(bookingsTable)
@@ -69,11 +69,12 @@ export const getBookedRoomsService = async () => {
     roomsTable,
     eq(bookingsTable.bookingRoomNumber, roomsTable.roomNumber)
   )
+  .where(eq(roomsTable.roomstatus, "booked"))
   .orderBy(asc(roomsTable.roomNumber));
   return bookedRooms;
 }
 
-// get room occupied by user
+// get room by guest contact by user
 export const getRoomByGuestService = async (guestContact: string) => {
   // left join guestsTable and roomsTable where guest contact matches
   const roomByGuest = await db.select({

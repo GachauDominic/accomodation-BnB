@@ -41,9 +41,6 @@ Content-Type: application/json
 DELETE http://localhost:3000/auth/hosts/delete/5f32515f-160c-43aa-ad29-80edb4e77075
 
 # ROOMS
-### Get all rooms
-GET http://localhost:3000/auth/rooms/getall
-
 ###create a room
 POST http://localhost:3000/auth/rooms/create
 Content-Type: application/json
@@ -64,31 +61,34 @@ Content-Type: application/json
   "pricePerNight": "1500.00"
 }
 
+### Get all rooms
+GET http://localhost:3000/auth/rooms/getall
+
 ###get room by num
-GET http://localhost:3000/auth/room/8B
+GET http://localhost:3000/auth/rooms/roombynum/5A
+
+###get room by guest contact
+GET http://localhost:3000/auth/room/roombycontact/0795063598
+
+###get vacant rooms
+GET http://localhost:3000/auth/rooms/vacantrooms
+
+###get booked rooms
+GET http://localhost:3000/auth/rooms/bookedrooms
+
+###get occupied rooms 
+GET http://localhost:3000/auth/rooms/occupiedrooms
 
 ###update room by num
-PATCH http://localhost:3000/auth/roomupdate/7B
+PATCH http://localhost:3000/auth/rooms/roomupdate/4A
 Content-Type: application/json
 
 {
   "roomstatus": "booked"
 }
 
-###get room by guest contact
-GET http://localhost:3000/auth/room/roombycontact/0795063598
-
-###get vacant rooms
-GET http://localhost:3000/rooms/vacantrooms
-
-###get booked rooms
-GET http://localhost:3000/rooms/bookedrooms
-
-###get occupied rooms 
-GET http://localhost:3000/rooms/occupiedrooms
-
 ###delete room by number
-DELETE http://localhost:3000/auth/rooms/roomdelete/8B
+DELETE http://localhost:3000/auth/rooms/roomdelete/
 
 # GUESTS
 ### Create a guest
@@ -147,11 +147,11 @@ GET http://localhost:3000/auth/guest/guestbycontact/0725638931
 GET http://localhost:3000/auth/guest/guestbyroomnum/5A
 
 ### update guest by contact
-PATCH  http://localhost:3000/auth/guest/updateguest/0795063598
+PATCH  http://localhost:3000/auth/guest/updateguest/0725638931
 Content-Type: application/json
 
 {
-  "guestFirstName": "Johnte"
+  "guestRoomNumber": "5A"
 }
 
 ### delete guest
@@ -165,7 +165,7 @@ Content-Type: application/json
 
 {
   "bookingRoomNumber": "4A",
-  "bookingGuestId": "8ad7d34d-a9e0-42c5-99dc-761b736c8e93",
+  "bookingGuestId": "0417137b-aa06-49c8-a675-b3f6f3290a46",
   "checkinDate": "2026-07-16",
   "checkoutDate": "2026-07-18",
   "guestCount": 1,
@@ -195,7 +195,7 @@ Content-Type: application/json
 }
 
 ### delete a booking by its ID
-DELETE http://localhost:3000/auth/bookings/deletebyid/d566dc72-2208-4152-9c41-1760e4c6b273
+DELETE http://localhost:3000/auth/bookings/deletebyid/709b2fb3-636b-4474-8fac-d139bdb444de
 
 
 # Payments

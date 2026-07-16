@@ -113,7 +113,7 @@ export const getRoomByGuestController = async (req: Request, res: Response) => {
 export const getVacantRoomsController = async (req: Request, res: Response) => {
  try {
    const vacantRooms = await getVacantRoomsService()
-  if (!vacantRooms) {
+  if (!vacantRooms || vacantRooms.length === 0) {
     return res.status(404).json({message: "No vacant rooms"})
   }
   return res.status(200).json({data: vacantRooms})
@@ -127,7 +127,7 @@ export const getVacantRoomsController = async (req: Request, res: Response) => {
 export const getBookedRoomsController = async (req: Request, res: Response) => {
   try {
     const bookedRooms = await getBookedRoomsService()
-    if (!bookedRooms) {
+    if (!bookedRooms || bookedRooms.length === 0) {
       return res.status(404).json({message: "No booked rooms"})
     }
     return res.status(200).json({data: bookedRooms})
@@ -140,7 +140,7 @@ export const getBookedRoomsController = async (req: Request, res: Response) => {
 export const getOccupiedRoomsController = async (req: Request, res: Response) => {
   try {
   const occupiedRooms = await getOccupiedRoomsService()
-  if (!occupiedRooms) {
+  if (!occupiedRooms || occupiedRooms.length === 0) {
     return res.status(404).json({message: "No occupied rooms"})
   }
   return res.status(200).json({data: occupiedRooms})

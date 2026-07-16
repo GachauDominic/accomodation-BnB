@@ -28,7 +28,7 @@ const rooms = (app: Express)=>{
 
   // get room by number
   app.route("/auth/rooms/roombynum/:roomNum").get(
-    bothRoleAuth,
+    // bothRoleAuth,
     async (req, res, next) => {
       try {
         await getRoomByNumController(req, res)
@@ -39,7 +39,7 @@ const rooms = (app: Express)=>{
 
    // get room by guest contact
   app.route("/auth/rooms/roombyguestcontact/:guestContact").get(
-    bothRoleAuth,
+    // bothRoleAuth,
     async (req, res, next) => {
       try {
         await getRoomByGuestController(req, res)
@@ -51,7 +51,7 @@ const rooms = (app: Express)=>{
 
   // get all vacant rooms
   app.route("/auth/rooms/vacantrooms").get(
-    bothRoleAuth,
+    // bothRoleAuth,
     async (req, res, next) => {
       try {
         await getVacantRoomsController(req, res)
@@ -63,7 +63,7 @@ const rooms = (app: Express)=>{
 
   // get all booked rooms
   app.route("/auth/rooms/bookedrooms").get(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
       try {
         await getBookedRoomsController(req, res)
@@ -75,7 +75,7 @@ const rooms = (app: Express)=>{
   
   // get all occupied rooms
   app.route("/auth/rooms/occupiedrooms").get(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
       try {
         await getOccupiedRoomsController(req, res)
@@ -87,7 +87,7 @@ const rooms = (app: Express)=>{
 
    // update room by num
   app.route("/auth/rooms/roomupdate/:roomNum").patch(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
       try {
         await updateRoomController(req, res)
