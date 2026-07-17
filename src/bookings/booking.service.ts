@@ -48,6 +48,7 @@ export const updateBookingService = async (bookingId:string, updateBooking: Part
 
 // delete a booking by booking id
 export const deleteBookingService = async (bookingId:string) => {
-  await db.delete(bookingsTable).where(eq(bookingsTable.bookingId, bookingId))
+  await db.delete(bookingsTable)
+  .where(eq(bookingsTable.bookingId, bookingId))
   return "Booking deleted successfully"
 };

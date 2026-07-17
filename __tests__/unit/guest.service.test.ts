@@ -282,23 +282,23 @@ describe("Guest services", () => {
   });
 
   // delete guest by contact
- describe.skip("deleteGuestService", () => {
-  it("should delete a guest from the db and return a message", async () => {
-    const guestContact = "070865564";
-    
-    // not there ia a returning mock since the actual service itself doesn't and thus the where clause is undefined
-    const whereMock = jest.fn().mockResolvedValue(undefined); // Must be awaitable
-    (db.delete as jest.Mock).mockReturnValue({
-      where: whereMock,
+  describe.skip("deleteGuestService", () => {
+    it("should delete a guest from the db and return a message", async () => {
+      const guestContact = "070865564";
+      
+      // note there ia a returning mock since the actual service itself doesn't and thus the where clause is undefined
+      const whereMock = jest.fn().mockResolvedValue(undefined); // Must be awaitable
+      (db.delete as jest.Mock).mockReturnValue({
+        where: whereMock,
+      });
+
+      const result = await deleteGuestService(guestContact);
+
+      expect(db.delete).toHaveBeenCalledWith(guestsTable);
+      expect(whereMock).toHaveBeenCalled();
+      expect(result).toEqual("Guest deleted");
     });
-
-    const result = await deleteGuestService(guestContact);
-
-    expect(db.delete).toHaveBeenCalledWith(guestsTable);
-    expect(whereMock).toHaveBeenCalled();
-    expect(result).toEqual("Guest deleted");
   });
-});
 
 });
 
