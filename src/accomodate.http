@@ -233,32 +233,45 @@ DELETE  http://localhost:3000/auth/payments/delete/06ce08ec-1067-43e0-af80-2517f
 
 # REVIEWS
 ### create a review
-POST http://localhost:3000
+POST http://localhost:3000/auth/reviews/create
 Content-Type: application/json
 
-{
+# {
+#   "reviewBookingId": "806ab683-5a11-4f55-b469-30f890c5eca1",
+#   "reviewRoomNum": "4A",
+#   "reviewGuestId": "0417137b-aa06-49c8-a675-b3f6f3290a46",
+#   "reviewRating": "4",
+#   "reviewComment": "It was a good experience. Loved the spacious room and the serene environment of the place"
+# }
 
+{
+  "reviewBookingId": "b4098ec1-5775-48b2-8a42-a998d2e6c18a",
+  "reviewRoomNum": "5A",
+  "reviewGuestId": "e04778ee-d2cf-4cb2-9e21-c16b621bfb10",
+  "reviewRating": "3",
+  "reviewComment": "Completely Loved the spacious room and the serene environment of the place"
 }
 
 ### get all reviews
-GET http://localhost:3000/auth/reviews
+GET http://localhost:3000/auth/reviews/all
 
 ### get a review by its id
-GET http://localhost:3000/auth/reviews/reviewbyid/55c3db54-8f4a-468b-86ef-d89c305d88b6
+GET http://localhost:3000/auth/reviews/byid/f58486bf-07cb-4aa8-ae02-592950641626
 
 ### get review by room num
-GET http://localhost:3000/auth/reviews/reviewbyroomnum/5A
+GET http://localhost:3000/auth/reviews/byroomnum/4A
 
 ### update a review by its id
-PATCH http://localhost:3000/auth/reviews/updatereviewbyid/55c3db54-8f4a-468b-86ef-d89c305d88b6
+PATCH http://localhost:3000/auth/reviews/update/byid/4904edd7-c572-443f-bc03-f148ef27b439
 Content-Type: application/json
 
 {
-  "reviewRating": 4
+  "reviewRating": 4,
+  "reviewComment": "Absolutely loved the experience. I would recommend anyone to book the place for a vacation escape."
 }
 
 ### delete a review by its id
-DELETE http://localhost:3000
+DELETE http://localhost:3000/auth/reviews/delete/f58486bf-07cb-4aa8-ae02-592950641626
 
 
 # ROOMS APPROVALS

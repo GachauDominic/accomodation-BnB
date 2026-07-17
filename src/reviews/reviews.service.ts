@@ -5,7 +5,7 @@ import { reviewsTable, roomsTable, TIReview } from "../Drizzle/schema";
 // create review
 export const createReviewService = async (review: TIReview) => {
   const newReview = await db.insert(reviewsTable).values(review).returning()
-  return "Review created"
+  return newReview
 };
 
 // get all reviews

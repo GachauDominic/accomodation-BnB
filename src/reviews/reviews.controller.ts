@@ -8,6 +8,7 @@ export const createReviewController = async (req: Request, res: Response) => {
   try {
     const review = req.body
     const newReview = await createReviewService(review)
+    if(!newReview) return res.status(400).json({message: "Unable to create the review"})
     return res.status(201).json({message: "Review was created", data: newReview})
   } catch (error: any) {
     return res.status(500).json({error: error.message})
@@ -106,7 +107,7 @@ export const deleteReviewController = async (req: Request, res: Response) => {
     const reviewId = req.params.reviewId ?? req.body.reviewId
     if (!reviewId) return res.json({message: "Review id required"})
 
-    const ifReviewIdExist = await getGuestByIdService(reviewId)
+    const ifReviewIdExist = await getReviewByIdService(reviewId)
     if (!ifReviewIdExist) return res.status(404).json({message: "Review does not exist"})
 
     const deletedReview = await deleteReviewService(reviewId)

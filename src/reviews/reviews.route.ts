@@ -4,8 +4,8 @@ import { adminRoleAuth, bothRoleAuth } from "../middleware/bearAuth";
 
 const reviews = (app: Express)=>{
   // create review
-  app.route("/review/create").post(
-    bothRoleAuth,
+  app.route("/auth/reviews/create").post(
+    // bothRoleAuth,
     async (req, res, next) => {
     try {
       await createReviewController(req, res)
@@ -15,8 +15,8 @@ const reviews = (app: Express)=>{
   });
 
   // get all reviews
-  app.route("/auth/reviews").get(
-    adminRoleAuth,
+  app.route("/auth/reviews/all").get(
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await getAllReviewController(req, res)
@@ -26,8 +26,8 @@ const reviews = (app: Express)=>{
   });
 
   // get review by its id
-  app.route("/auth/reviews/reviewbyid/:reviewId").get(
-    adminRoleAuth,
+  app.route("/auth/reviews/byid/:reviewId").get(
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await getReviewByIdController(req, res)
@@ -37,8 +37,8 @@ const reviews = (app: Express)=>{
   });
 
   //  get review by room num
-  app.route("/auth/reviews/reviewbyroomnum/:roomNum").get(
-    bothRoleAuth,
+  app.route("/auth/reviews/byroomnum/:roomNum").get(
+    // bothRoleAuth,
     async (req, res, next) => {
     try {
       await getReviewByGuestIdController(req, res)
@@ -48,8 +48,8 @@ const reviews = (app: Express)=>{
   });
 
   // update review by its id
-  app.route("/auth/reviews/updatereviewbyid/:reviewId").patch(
-    adminRoleAuth,
+  app.route("/auth/reviews/update/byid/:reviewId").patch(
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await updateReviewByIdController(req, res)
@@ -59,8 +59,8 @@ const reviews = (app: Express)=>{
   });
 
   // update review by guest id
-   app.route("/auth/reviews/updatereviewbyguestid/:guestId").patch(
-    bothRoleAuth,
+   app.route("/auth/reviews/update/guestid/:guestId").patch(
+    // bothRoleAuth,
     async (req, res, next) => {
     try {
       await updateReviewByGuestIdController(req, res)
@@ -71,7 +71,7 @@ const reviews = (app: Express)=>{
 
   //  delete review by its id
   app.route("/auth/reviews/delete/:reviewId").delete(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await deleteReviewController(req, res)
