@@ -75,7 +75,7 @@ export const loginHostController = async (req: Request, res: Response) => {
     }
 
     // generate JWT token
-    const secret = process.env.Jwt_SECRET as string
+    const secret = process.env.JWT_SECRET as string
     if (!secret) throw new Error("JWT_SECRET is not defined in your env variables")
     
     const token = jwt.sign(payload, secret)
