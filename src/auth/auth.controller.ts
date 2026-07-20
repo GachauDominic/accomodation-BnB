@@ -16,7 +16,7 @@ export const createHostController = async (req:Request, res:Response) => {
     host.hostPasswordHash = hashedpassword;
 
     const createdHost = await createHostService(host)
-    if (!createdHost) return res.json({message: "Host not created!"})
+    if (!createdHost) return res.status(401).json({message: "Host not created!"})
       return res.status(201).json({message: "Host created successfully", data: createdHost})
   } catch(error: any){
     return res.status(500).json({error: error.message})

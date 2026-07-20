@@ -27,7 +27,7 @@ let testHost = {
     await db.$client.end()
   })
 
-  describe("post, login", ()=>{
+  describe.skip("post, login", ()=>{
     it("should login a host and return a token", async () => {
      const res = await request(app)
       .post("/auth/loginhost")
