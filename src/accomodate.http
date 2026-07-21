@@ -45,13 +45,13 @@ DELETE http://localhost:3000/auth/hosts/delete/5f32515f-160c-43aa-ad29-80edb4e77
 POST http://localhost:3000/auth/rooms/create
 Content-Type: application/json
 
-{
-  "roomNumber": "8B",
-  "roomDescription": "Studio apartment: one bathroom, one bedroom, one dinning room, balcony, dinner and breakfast included",
-  "address": "Pamki Building, Kimathi way Nyeri down town",
-  "maxGuest": 2,
-  "pricePerNight": "2000.00"
-}
+# {
+#   "roomNumber": "8B",
+#   "roomDescription": "Studio apartment: one bathroom, one bedroom, one dinning room, balcony, dinner and breakfast included",
+#   "address": "Pamki Building, Kimathi way Nyeri down town",
+#   "maxGuest": 2,
+#   "pricePerNight": "2000.00"
+# }
 
 {
   "roomNumber": "1A",

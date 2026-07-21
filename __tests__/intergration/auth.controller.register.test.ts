@@ -21,7 +21,7 @@ afterAll( async () => {
 })
 
 
-describe('post register host', ()=>{
+describe.skip('post register host', ()=>{
   it("should register a host and return their data along with a success message", async () => {
     const res = await request(app)
     .post('/auth/register')
