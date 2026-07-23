@@ -1,0 +1,629 @@
+{
+  "id": "f4630d35-75d7-4169-9a0d-c8af648f63e6",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.bookings": {
+      "name": "bookings",
+      "schema": "",
+      "columns": {
+        "bookingId": {
+          "name": "bookingId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "bookingRoomId": {
+          "name": "bookingRoomId",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bookingGuestId": {
+          "name": "bookingGuestId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "checkinDate": {
+          "name": "checkinDate",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "checkoutDate": {
+          "name": "checkoutDate",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guestCount": {
+          "name": "guestCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "totalAmount": {
+          "name": "totalAmount",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bookingStatus": {
+          "name": "bookingStatus",
+          "type": "bookingStatusEnum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bookingDate": {
+          "name": "bookingDate",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "bookings_bookingRoomId_rooms_roomNumber_fk": {
+          "name": "bookings_bookingRoomId_rooms_roomNumber_fk",
+          "tableFrom": "bookings",
+          "tableTo": "rooms",
+          "columnsFrom": [
+            "bookingRoomId"
+          ],
+          "columnsTo": [
+            "roomNumber"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "bookings_bookingGuestId_guests_guestId_fk": {
+          "name": "bookings_bookingGuestId_guests_guestId_fk",
+          "tableFrom": "bookings",
+          "tableTo": "guests",
+          "columnsFrom": [
+            "bookingGuestId"
+          ],
+          "columnsTo": [
+            "guestId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.guests": {
+      "name": "guests",
+      "schema": "",
+      "columns": {
+        "guestId": {
+          "name": "guestId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "guestRoomNumber": {
+          "name": "guestRoomNumber",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guestFirstName": {
+          "name": "guestFirstName",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guestLastName": {
+          "name": "guestLastName",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guestContact": {
+          "name": "guestContact",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "userRoleEnum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'guest'"
+        },
+        "guestEmail": {
+          "name": "guestEmail",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guestPassword": {
+          "name": "guestPassword",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "isVerified": {
+          "name": "isVerified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "verificationCode": {
+          "name": "verificationCode",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "guests_guestRoomNumber_rooms_roomNumber_fk": {
+          "name": "guests_guestRoomNumber_rooms_roomNumber_fk",
+          "tableFrom": "guests",
+          "tableTo": "rooms",
+          "columnsFrom": [
+            "guestRoomNumber"
+          ],
+          "columnsTo": [
+            "roomNumber"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "guests_guestContact_unique": {
+          "name": "guests_guestContact_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "guestContact"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.hosts": {
+      "name": "hosts",
+      "schema": "",
+      "columns": {
+        "hostAdminId": {
+          "name": "hostAdminId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "firstName": {
+          "name": "firstName",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lastName": {
+          "name": "lastName",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hostEmail": {
+          "name": "hostEmail",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hostContact": {
+          "name": "hostContact",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hostPasswordHash": {
+          "name": "hostPasswordHash",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "userRoleEnum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'hostAdmin'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "hosts_hostContact_unique": {
+          "name": "hosts_hostContact_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "hostContact"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payments": {
+      "name": "payments",
+      "schema": "",
+      "columns": {
+        "paymentId": {
+          "name": "paymentId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "paymentBookingId": {
+          "name": "paymentBookingId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "paymentMethod": {
+          "name": "paymentMethod",
+          "type": "paymentMethodEnum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "paymentStatus": {
+          "name": "paymentStatus",
+          "type": "paymentStatusEnum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "paymentDate": {
+          "name": "paymentDate",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "payments_paymentBookingId_bookings_bookingId_fk": {
+          "name": "payments_paymentBookingId_bookings_bookingId_fk",
+          "tableFrom": "payments",
+          "tableTo": "bookings",
+          "columnsFrom": [
+            "paymentBookingId"
+          ],
+          "columnsTo": [
+            "bookingId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.reviews": {
+      "name": "reviews",
+      "schema": "",
+      "columns": {
+        "reviewId": {
+          "name": "reviewId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "reviewBookingId": {
+          "name": "reviewBookingId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reviewRoomNum": {
+          "name": "reviewRoomNum",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reviewGuestId": {
+          "name": "reviewGuestId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reviewRating": {
+          "name": "reviewRating",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reviewComment": {
+          "name": "reviewComment",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reviewCreatedAt": {
+          "name": "reviewCreatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "reviews_reviewBookingId_bookings_bookingId_fk": {
+          "name": "reviews_reviewBookingId_bookings_bookingId_fk",
+          "tableFrom": "reviews",
+          "tableTo": "bookings",
+          "columnsFrom": [
+            "reviewBookingId"
+          ],
+          "columnsTo": [
+            "bookingId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "reviews_reviewRoomNum_rooms_roomNumber_fk": {
+          "name": "reviews_reviewRoomNum_rooms_roomNumber_fk",
+          "tableFrom": "reviews",
+          "tableTo": "rooms",
+          "columnsFrom": [
+            "reviewRoomNum"
+          ],
+          "columnsTo": [
+            "roomNumber"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "reviews_reviewGuestId_guests_guestId_fk": {
+          "name": "reviews_reviewGuestId_guests_guestId_fk",
+          "tableFrom": "reviews",
+          "tableTo": "guests",
+          "columnsFrom": [
+            "reviewGuestId"
+          ],
+          "columnsTo": [
+            "guestId"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.roomApproval": {
+      "name": "roomApproval",
+      "schema": "",
+      "columns": {
+        "approvalId": {
+          "name": "approvalId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "approvedRoomNum": {
+          "name": "approvedRoomNum",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "approvingHostId": {
+          "name": "approvingHostId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "approvedGuestId": {
+          "name": "approvedGuestId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "roomApprovalStatus": {
+          "name": "roomApprovalStatus",
+          "type": "roomApprovalEnum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "roomApproval_approvedRoomNum_rooms_roomNumber_fk": {
+          "name": "roomApproval_approvedRoomNum_rooms_roomNumber_fk",
+          "tableFrom": "roomApproval",
+          "tableTo": "rooms",
+          "columnsFrom": [
+            "approvedRoomNum"
+          ],
+          "columnsTo": [
+            "roomNumber"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "roomApproval_approvingHostId_hosts_hostAdminId_fk": {
+          "name": "roomApproval_approvingHostId_hosts_hostAdminId_fk",
+          "tableFrom": "roomApproval",
+          "tableTo": "hosts",
+          "columnsFrom": [
+            "approvingHostId"
+          ],
+          "columnsTo": [
+            "hostAdminId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "roomApproval_approvedGuestId_guests_guestId_fk": {
+          "name": "roomApproval_approvedGuestId_guests_guestId_fk",
+          "tableFrom": "roomApproval",
+          "tableTo": "guests",
+          "columnsFrom": [
+            "approvedGuestId"
+          ],
+          "columnsTo": [
+            "guestId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.rooms": {
+      "name": "rooms",
+      "schema": "",
+      "columns": {
+        "roomNumber": {
+          "name": "roomNumber",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "roomDescription": {
+          "name": "roomDescription",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "maxGuest": {
+          "name": "maxGuest",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pricePerNight": {
+          "name": "pricePerNight",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "roomStatus": {
+          "name": "roomStatus",
+          "type": "roomStatusEnum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'vacant'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.bookingStatusEnum": {
+      "name": "bookingStatusEnum",
+      "schema": "public",
+      "values": [
+        "vacant",
+        "assigned"
+      ]
+    },
+    "public.paymentMethodEnum": {
+      "name": "paymentMethodEnum",
+      "schema": "public",
+      "values": [
+        "cash",
+        "creditCard",
+        "MPesa_paybill"
+      ]
+    },
+    "public.paymentStatusEnum": {
+      "name": "paymentStatusEnum",
+      "schema": "public",
+      "values": [
+        "unpaid",
+        "pending",
+        "confirmed",
+        "refunded"
+      ]
+    },
+    "public.roomApprovalEnum": {
+      "name": "roomApprovalEnum",
+      "schema": "public",
+      "values": [
+        "approved",
+        "pending",
+        "rejected"
+      ]
+    },
+    "public.roomStatusEnum": {
+      "name": "roomStatusEnum",
+      "schema": "public",
+      "values": [
+        "vacant",
+        "booked",
+        "occupied"
+      ]
+    },
+    "public.userRoleEnum": {
+      "name": "userRoleEnum",
+      "schema": "public",
+      "values": [
+        "hostAdmin",
+        "guest"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

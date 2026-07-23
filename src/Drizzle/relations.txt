@@ -1,0 +1,14 @@
+// | Entity A      | Entity B     | Relationship     |
+// | ------------- | ------------ | ---------------- |
+// | Users (Host)  | Rooms        | 1 : N            |
+// | Users (Guest) | Bookings     | 1 : N            |
+// | Users (Guest) | payment      | 1 : 1            |
+// | Rooms         | Bookings     | 1 : N            |
+// | Bookings      | Payments     | 1 : 1 (or 1 : N) |
+// | Users (Guest) | Reviews      | 1 : N            |
+// | Rooms         | Reviews      | 1 : N            |
+// | Bookings      | Reviews      | 1 : 0..1         |
+// | Rooms         | RoomApproval | 1 : 1            |
+// | Users (Admin) | RoomApproval | 1 : N            |
+
+

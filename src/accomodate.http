@@ -53,14 +53,29 @@ Content-Type: application/json
 #   "pricePerNight": "2000.00"
 # }
 
-{
-  "roomNumber": "1A",
-  "roomDescription": "Bedsitter: one bathroom, one bed, dinner and breakfast included",
-  "address": "Pamki Building, Kimathi way Nyeri down town",
-  "maxGuest": 2,
-  "pricePerNight": "1500.00"
-}
-
+[
+  {
+    "roomNumber": "1A",
+    "roomDescription": "Bedsitter: one bathroom, one bed, dinner and breakfast included",
+    "address": "Pamki Building, Kimathi way Nyeri down town",
+    "maxGuest": 2,
+    "pricePerNight": "1500.00"
+  },
+  {
+    "roomNumber": "2A",
+    "roomDescription": "Bedsitter: one bathroom, dinner and breakfast included",
+    "address": "Pamki Building, Kimathi way Nyeri down town",
+    "maxGuest": 2,
+    "pricePerNight": "1500.00"
+  },
+  {
+    "roomNumber": "3A",
+    "roomDescription": "One bedroom: one bathroom, one dinning room, dinner and breakfast included",
+    "address": "Pamki Building, Kimathi way Nyeri down town",
+    "maxGuest": 3,
+    "pricePerNight": "2000.00"
+  }
+]
 ### Get all rooms
 GET http://localhost:3000/auth/rooms/getall
 

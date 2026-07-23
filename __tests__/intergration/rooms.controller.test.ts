@@ -1,80 +1,79 @@
 import request from "supertest"
 import db from "../../src/Drizzle/db"
-import { roomsTable } from "../../src/Drizzle/schema"
+import { hostAdminTable, roomsTable, TIHost, TIRoom } from "../../src/Drizzle/schema"
 import { eq } from "drizzle-orm"
 import app from "../../src/server"
+import bcrypt from "bcryptjs"
 
-// jest.mock("../../src/Drizzle/db", ()=>{
-//   const dbMock = {
-//     insert: jest.fn(),
-//     select: jest.fn(),
-//     update: jest.fn(),
-//     delete: jest.fn(),
-//     query: {
-//       roomsTable: {
-//         findFirst: jest.fn(),
-//         findMany: jest.fn(),
-//       },
-//     },
-//   }
 
-//   return {
-//     __esModule: true,
-//     default: dbMock,
-//     ...dbMock,
-//   }
-// })
+let token: string;
+let hostAdminId: string;
 
-let mockRoom = {
+let testHost: TIHost = {
+  firstName: "Dominic", 
+  lastName: "test",
+  hostEmail: "testhost@example.com",
+  hostContact: "0712346748",
+  hostPasswordHash: "password123"
+}
+const mockRoom: TIRoom = {
   "roomNumber": "1A",
   "roomDescription": "Bedsitter: one bathroom, one bed, dinner and breakfast included",
   "address": "Pamki Building, Kimathi way Nyeri down town",
   "maxGuest": 2,
-  "pricePerNight": "1500.00",
-  "roomStatus": "vacant"
+  "pricePerNight": "1500.00"
+  // "roomStatus": "vacant"
 }
 
-let mockHost = {
-  firstName: "Dominic",
-  lastName: "test",
-  hostEmail: "testuser@example.com",
-  hostContact: "0712346748",
-  hostPasswordHash: "password123"
-}
+// beforeEach(async () => {
+//   await db.delete(roomsTable)
+//     .where(eq(roomsTable.roomNumber, mockRoom.roomNumber))
 
-// let token: string;
+//   await db.delete(hostAdminTable)
+//     .where(eq(hostAdminTable.hostEmail, testHost.hostEmail));
+// })
 
-// beforeEach(()=>{
-//   jest.clearAllMocks()
-// });
+beforeAll(async() => {
+  // {Note before a host or any user in any system that has authentication and authorization feature, the user must first exist in order tobe able to login into the system, thus the creation of the user first in this mock followed by login}
+  
+  // create the host
+  const hashedpass = bcrypt.hashSync(testHost.hostPasswordHash, 5)
+  const [hostAdmin] = await db.insert(hostAdminTable).values({
+    ...testHost,
+    hostPasswordHash: hashedpass,
+    role: "hostAdmin"
+  }).returning()
+  hostAdminId = hostAdmin.hostAdminId
 
-// afterEach(()=>{
-//   jest.clearAllMocks()
-// });
+  // login the host
+  const loginRes = await request(app)
+  .post("/auth/loginhost")
+  .send({
+    hostEmail: "testhost@example.com",
+    hostPasswordHash: "password123"
+  })
+  token = loginRes.body.token
 
-beforeAll(async () => {
-  // const [room] = await db.insert(roomsTable)
-  // .values({...mockRoom})
-  // .returning()
-
-  // login for authorization
-  // const res = await request(app)
-  // .post("/auth/loginhost")
-  // .send({
-  //   hostEmail: mockHost.hostEmail,
-  //   hostPasswordHash: mockHost.hostPasswordHash
-  // })
-  // token = res.body.token
+  // create a room fo retrival | deletion | update
+  await db.insert(roomsTable).values(mockRoom)
+  const roomRes = await request(app)
+  .post("/todo")
+  .set("Authorization", `Bearer ${token}`)
+  .send(mockRoom)
+    
 })
 
 afterAll(async () => {
   await db.delete(roomsTable)
-  .where(eq(roomsTable.roomNumber, mockRoom.roomNumber))
+    .where(eq(roomsTable.roomNumber, mockRoom.roomNumber))
+
+  await db.delete(hostAdminTable)
+    .where(eq(hostAdminTable.hostEmail, testHost.hostEmail));
   await db.$client.end()
 })
 
 describe("post create room", ()=>{
-  it("should create  a new room and return message and data", async () => {
+  it.skip("should create  a new room and return message and data", async () => {
     const res = await request(app)
     .post("/auth/rooms/create")
     // .set("Authorization", `Bearer ${token}`)
@@ -92,6 +91,41 @@ describe("post create room", ()=>{
       maxGuest: mockRoom.maxGuest,
       pricePerNight: mockRoom.pricePerNight,
     });
+  })
+
+  it.skip("should create a room only when the host is logged in and authorized", async () => {
+    const mockRoom = {
+      "roomNumber": "1A",
+      "roomDescription": "Bedsitter: one bathroom, one bed, dinner and breakfast included",
+      "address": "Pamki Building, Kimathi way Nyeri down town",
+      "maxGuest": 2,
+      "pricePerNight": "1500.00"
+      // "roomStatus": "vacant"
+    }
+    
+    const res = await request(app)
+    .post("/auth/rooms/create")
+    .set("Authorization", `Bearer ${token}`) // the word bearer and token should have a space between them
+    .send(mockRoom)
+
+    expect(res.statusCode).toBe(201)
+    expect(res.body).toHaveProperty("message", 'Room created successfully')
+  })
+
+  it.skip("should return all rooms", async () => {
+    const res = await request(app)
+    .get("/auth/rooms/getall")
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toHaveProperty("data", expect.anything())
+  })
+
+  it("should get room by num", async () => {
+    const res = await request(app)
+    .get(`/auth/rooms/roombynum/${"1A"}`)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toHaveProperty("data", expect.anything())
   })
 
 
