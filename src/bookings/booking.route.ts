@@ -4,7 +4,7 @@ import { adminRoleAuth, bothRoleAuth } from "../middleware/bearAuth";
 
 const bookings = (app: Express)=>{
   // create booking
-  app.route("/booking").post(
+  app.route("/auth/booking/create").post(
     // bothRoleAuth,
     async (req, res, next) => {
     try {

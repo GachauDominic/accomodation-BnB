@@ -175,7 +175,7 @@ DELETE http://localhost:3000/auth/guest/deleteguest/0722664404
 
 # BOOKINGS
 ### create booking
-POST http://localhost:3000/booking
+POST http://localhost:3000/auth/booking/create
 Content-Type: application/json
 
 {

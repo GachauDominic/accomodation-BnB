@@ -44,53 +44,6 @@ export const getRoomByNumController = async (req: Request, res: Response) => {
   }
 }
 
-// update room by number
-export const updateRoomController = async (req: Request, res: Response) => {
-  try {
-    const roomNum = req.params.roomNum ?? req.body.roomNum
-    if (!roomNum) {
-      return res.json({message: "Room number is required"})
-    }
-
-    const updateData = req.body
-    const existingRoom = await getRoomByNumService(roomNum)
-    if (!existingRoom) {
-      return res.status(404).json({message: "Room not found!"})
-    }
-
-    const updatedRoom = await updateRoomService(roomNum, updateData)
-    if (!updatedRoom || updatedRoom.length === 0) {
-      return res.status(400).json({message: "Room not updated!"})
-    }
-    return res.status(200).json({message: "Room updated successfully", data: updatedRoom})
-  } catch (error: any) {
-    return res.status(500).json({error: error.message})
-  }
-}
-
-// delete room by number
-export const deleteRoomController = async (req: Request, res: Response) => {
-  try {
-    const roomNum = req.params.roomNum ?? req.body.roomNum
-    if (!roomNum) {
-      return res.status(400).json({message: "Room number is required"})
-    }
-
-    const existingRoom = await getRoomByNumService(roomNum)
-    if (!existingRoom) {
-      return res.status(404).json({message: "Room not found!"})
-    }
-
-    const deletedRoom = await deleteRoomService(roomNum)
-    if (!deletedRoom) {
-      return res.status(400).json({message: "Room not deleted!"})
-    }
-    return res.status(200).json({message: "Room deleted successfully"})
-  } catch (error: any) {
-    return res.status(500).json({error: error.message})
-  }
-}
-
 // get room by guest contact
 export const getRoomByGuestController = async (req: Request, res: Response) => {
   try {
@@ -147,4 +100,51 @@ export const getOccupiedRoomsController = async (req: Request, res: Response) =>
   } catch (error: any) {
     return res.status(500).json({ error: error.message })
   } 
+}
+
+// update room by number
+export const updateRoomController = async (req: Request, res: Response) => {
+  try {
+    const roomNum = req.params.roomNum ?? req.body.roomNum
+    if (!roomNum) {
+      return res.json({message: "Room number is required"})
+    }
+
+    const updateData = req.body
+    const existingRoom = await getRoomByNumService(roomNum)
+    if (!existingRoom) {
+      return res.status(404).json({message: "Room not found!"})
+    }
+
+    const updatedRoom = await updateRoomService(roomNum, updateData)
+    if (!updatedRoom || updatedRoom.length === 0) {
+      return res.status(400).json({message: "Room not updated!"})
+    }
+    return res.status(200).json({message: "Room updated successfully", data: updatedRoom})
+  } catch (error: any) {
+    return res.status(500).json({error: error.message})
+  }
+}
+
+// delete room by number
+export const deleteRoomController = async (req: Request, res: Response) => {
+  try {
+    const roomNum = req.params.roomNum ?? req.body.roomNum
+    if (!roomNum) {
+      return res.status(400).json({message: "Room number is required"})
+    }
+
+    const existingRoom = await getRoomByNumService(roomNum)
+    if (!existingRoom) {
+      return res.status(404).json({message: "Room not found!"})
+    }
+
+    const deletedRoom = await deleteRoomService(roomNum)
+    if (!deletedRoom) {
+      return res.status(400).json({message: "Room not deleted!"})
+    }
+    return res.status(200).json({message: "Room deleted successfully"})
+  } catch (error: any) {
+    return res.status(500).json({error: error.message})
+  }
 }
