@@ -1,6 +1,6 @@
 import request from "supertest"
 import db from "../../src/Drizzle/db"
-import { hostAdminTable, roomsTable, TIHost, TIRoom } from "../../src/Drizzle/schema"
+import { hostAdminTable, roomsTable, roomStatusEnum, TIHost, TIRoom } from "../../src/Drizzle/schema"
 import { eq } from "drizzle-orm"
 import app from "../../src/server"
 import bcrypt from "bcryptjs"
@@ -17,7 +17,7 @@ let testHost: TIHost = {
   hostPasswordHash: "password123"
 }
 const mockRoom: TIRoom = {
-  "roomNumber": "1A",
+  "roomNumber": "8A",
   "roomDescription": "Bedsitter: one bathroom, one bed, dinner and breakfast included",
   "address": "Pamki Building, Kimathi way Nyeri down town",
   "maxGuest": 2,
@@ -76,10 +76,10 @@ describe("post create room", ()=>{
   it.skip("should create  a new room and return message and data", async () => {
     const res = await request(app)
     .post("/auth/rooms/create")
-    // .set("Authorization", `Bearer ${token}`)
+    .set("Authorization", `Bearer ${token}`)
     .send(mockRoom)
 
-    // expect(res.statusCode).toBe(201)
+    expect(res.statusCode).toBe(201)
     expect(res.body).toEqual({
       message: "Room created successfully",
       data: expect.any(Object),
@@ -93,15 +93,8 @@ describe("post create room", ()=>{
     });
   })
 
-  it.skip("should create a room only when the host is logged in and authorized", async () => {
-    const mockRoom = {
-      "roomNumber": "1A",
-      "roomDescription": "Bedsitter: one bathroom, one bed, dinner and breakfast included",
-      "address": "Pamki Building, Kimathi way Nyeri down town",
-      "maxGuest": 2,
-      "pricePerNight": "1500.00"
-      // "roomStatus": "vacant"
-    }
+  // error
+  it("should create a room only when the host is logged in and authorized", async () => {
     
     const res = await request(app)
     .post("/auth/rooms/create")
@@ -112,7 +105,7 @@ describe("post create room", ()=>{
     expect(res.body).toHaveProperty("message", 'Room created successfully')
   })
 
-  it.skip("should return all rooms", async () => {
+  it("should return all rooms", async () => {
     const res = await request(app)
     .get("/auth/rooms/getall")
 
@@ -128,5 +121,78 @@ describe("post create room", ()=>{
     expect(res.body).toHaveProperty("data", expect.anything())
   })
 
+
+  it("should get room by guest contact", async ()=>{
+    const guestContact = '0725638931'
+    const res = await request(app)
+    .get(`/auth/rooms/roombyguestcontact/${guestContact}`)
+    .set("Authorization", `Bearer ${token}`)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toHaveProperty("data", expect.anything())
+  })
+
+  it("should get all vacant rooms", async () => {
+    const res = await request(app)
+    .get('/auth/rooms/vacantrooms')
+    .set("Authorization", `Bearer ${token}`)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toHaveProperty("data", expect.anything())
+  })
+  
+  it("should get all booked rooms", async () => {
+    const res = await request(app)
+    .get('/auth/rooms/bookedrooms')
+    .set("Authorization", `Bearer ${token}`)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toHaveProperty("data", expect.anything())
+  })
+
+  it("should get all occupied rooms", async () => {
+    const res = await request(app)
+    .get('/auth/rooms/occupiedrooms')
+    .set("Authorization", `Bearer ${token}`)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toHaveProperty("data", expect.anything())
+  })
+
+  it("should get all vacant rooms", async () => {
+    const res = await request(app)
+    .get('/auth/rooms/vacantrooms')
+    .set("Authorization", `Bearer ${token}`)
+    
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toHaveProperty("data", expect.anything())
+  })
+  
+  it("should update a room through its room num", async ()=>{
+    const roomNumber = "7A"
+    // const updatedRoomData = {
+    //   "roomStatus: assigned"
+
+    // }
+    const res = await request(app)
+    .get(`/auth/rooms/roomupdate/${roomNumber}`)
+    .set("Authorization", `Bearer ${token}`)
+    .send({roomStatus: "assigned"})
+    
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toHaveProperty("data", expect.anything())
+  })
+
+  it("should delete a room by its room num", async ()=>{
+    const roomNumber = "7A"
+    
+    const res = await request(app)
+    .get(`/auth/rooms/roomdelete/${roomNumber}`)
+    .set("Authorization", `Bearer ${token}`)
+    
+    expect(res.statusCode).toBe(204)
+    expect(res.body).toHaveProperty('message', expect.anything())
+
+  })
 
 })

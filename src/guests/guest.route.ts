@@ -1,11 +1,11 @@
 import { Express } from "express";
 import { createGuestController, deleteGuestController, getAllGuestController, guestByContactController, guestByIdController, guestByRoomController, loginGuestController, updateguestController } from "./guest.controller";
-import { adminRoleAuth, bothRoleAuth } from "../middleware/bearAuth";
+import { adminRoleAuth, bothRoleAuth, userRoleAuth } from "../middleware/bearAuth";
 
 const guest = (app: Express)=>{
   // create guest
   app.route("/auth/guest/register").post(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req,res,next) => {
     try {
       await createGuestController(req,res)
@@ -16,7 +16,8 @@ const guest = (app: Express)=>{
 
   // login guest
   app.route("/auth/guest/login").post(
-    bothRoleAuth,
+    // bothRoleAuth,
+    userRoleAuth,
     async (req, res, next) => {
     try {
       await loginGuestController(req, res)

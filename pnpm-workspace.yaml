@@ -1,3 +1,4 @@
 allowBuilds:
+  cypress: true
   esbuild: true
   unrs-resolver: true

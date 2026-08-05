@@ -143,7 +143,7 @@ export const deleteRoomController = async (req: Request, res: Response) => {
     if (!deletedRoom) {
       return res.status(400).json({message: "Room not deleted!"})
     }
-    return res.status(200).json({message: "Room deleted successfully"})
+    return res.status(204).json({message: "Room deleted successfully"})
   } catch (error: any) {
     return res.status(500).json({error: error.message})
   }

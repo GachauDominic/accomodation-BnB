@@ -83,7 +83,7 @@ GET http://localhost:3000/auth/rooms/getall
 GET http://localhost:3000/auth/rooms/roombynum/5A
 
 ###get room by guest contact
-GET http://localhost:3000/auth/room/roombycontact/0795063598
+GET http://localhost:3000/auth/room/roombycontact/0725638931
 
 ###get vacant rooms
 GET http://localhost:3000/auth/rooms/vacantrooms
@@ -95,11 +95,11 @@ GET http://localhost:3000/auth/rooms/bookedrooms
 GET http://localhost:3000/auth/rooms/occupiedrooms
 
 ###update room by num
-PATCH http://localhost:3000/auth/rooms/roomupdate/4A
+PATCH http://localhost:3000/auth/rooms/roomupdate/2A
 Content-Type: application/json
 
 {
-  "roomstatus": "booked"
+  "roomstatus": "assigned"
 }
 
 ###delete room by number
@@ -110,13 +110,14 @@ DELETE http://localhost:3000/auth/rooms/roomdelete/
 POST http://localhost:3000/auth/guest/register
 Content-Type: application/json
 
-{
-  "guestFirstName": "Dom",
-  "guestLastName": "Maish",
-  "guestContact": "0700000000",
-  "guestEmail": "gachaudominic@gmail.com",
-  "guestPassword": "dom@123"
-}
+# [
+# {
+#   "guestFirstName": "Dom",
+#   "guestLastName": "Maish",
+#   "guestContact": "0700000000",
+#   "guestEmail": "gachaudominic@gmail.com",
+#   "guestPassword": "dom@123"
+# },
 # {
 #   "guestFirstName": "John",
 #   "guestLastName": "Kiai",
@@ -124,15 +125,16 @@ Content-Type: application/json
 #   "guestEmail": "johnkiai@example.com",
 #   "guestPassword": "jkiai@123"
 # }
+# ]
 
-# {
-#   "guestFirstName": "Mitch",
-#   "guestLastName": "Nduta",
-#   "guestContact": "0725638931",
-#   "guestEmail": "mnduta@example.com",
-#   "guestPassword": "mnduta@123"
+{
+  "guestFirstName": "Mitch",
+  "guestLastName": "Nduta",
+  "guestContact": "0725638931",
+  "guestEmail": "mnduta@example.com",
+  "guestPassword": "mnduta@123"
 
-# },
+}
 # {
 #   "guestFirstName": "John",
 #   "guestLastName": "Kiamba",
@@ -179,8 +181,8 @@ POST http://localhost:3000/auth/booking/create
 Content-Type: application/json
 
 {
-  "bookingRoomNumber": "4A",
-  "bookingGuestId": "0417137b-aa06-49c8-a675-b3f6f3290a46",
+  "bookingRoomNumber": "2A",
+  "bookingGuestId": "6ffad33b-1bbc-4fef-9305-7ddb91ec81f6",
   "checkinDate": "2026-07-16",
   "checkoutDate": "2026-07-18",
   "guestCount": 1,
