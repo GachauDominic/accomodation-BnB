@@ -206,7 +206,7 @@ describe("room approvals services", ()=>{
       const returnMock = 
         {
           "approvedRoomNum": "2A",
-          "approvingHostId": "c41348cf7456",
+          "approvingHostId": "41348cf7456",
           "approvedGuestId": "9b04-c41348cf7456",
           "roomAprovalStatus": "approved",
       }
@@ -232,6 +232,82 @@ describe("room approvals services", ()=>{
     })
   })
 
-  
+  describe('getPendingApprovalsService', ()=>{
+    it("get all pending approvals", async () => {
+      const allPendingApprovalsMock = [
+        {
+          "approvedRoomNum": "2A",
+          "approvingHostId": "9734-4f45-9b04-c41348cf7456",
+          "approvedGuestId": "4fef-9305-7ddb91ec81f6",
+          "roomAprovalStatus": "approved",
+        }
+      ]
+      ;(db.query.roomApprovalTable.findMany as jest.Mock).mockReturnValueOnce(allPendingApprovalsMock) // get all such as this is a mockReturnValueOnce
+
+      const result = await getPendingApprovalsService()
+      expect(db.query.roomApprovalTable.findMany).toHaveBeenCalled()
+      expect(result).toEqual(allPendingApprovalsMock)
+    })
+
+    it("should return empty array if no pending approvals", async () => {
+      ;(db.query.roomApprovalTable.findMany as jest.Mock).mockReturnValueOnce([])
+      
+      const result = await getPendingApprovalsService()
+      expect(db.query.roomApprovalTable.findMany).toHaveBeenCalled()
+      expect(result).toEqual([])
+    })
+  })
+
+  describe('getApprovedApprovalsService', ()=>{
+    it("get all pending approvals", async () => {
+      const allApprovedApprovalsMock = [
+        {
+          "approvedRoomNum": "2A",
+          "approvingHostId": "9734-4f45-9b04-c41348cf7456",
+          "approvedGuestId": "4fef-9305-7ddb91ec81f6",
+          "roomAprovalStatus": "approved",
+        }
+      ]
+      ;(db.query.roomApprovalTable.findMany as jest.Mock).mockReturnValueOnce(allApprovedApprovalsMock) // get all such as this is a mockReturnValueOnce
+
+      const result = await getApprovedApprovalsService()
+      expect(db.query.roomApprovalTable.findMany).toHaveBeenCalled()
+      expect(result).toEqual(allApprovedApprovalsMock)
+    })
+
+    it("should return empty array if no approved approvals", async () => {
+      ;(db.query.roomApprovalTable.findMany as jest.Mock).mockReturnValueOnce([])
+      
+      const result = await getApprovedApprovalsService()
+      expect(db.query.roomApprovalTable.findMany).toHaveBeenCalled()
+      expect(result).toEqual([])
+    })
+  })
+
+  describe('getRejectedApprovalsService', ()=>{
+    it("get all pending approvals", async () => {
+      const allRejectedApprovalsMock = [
+        {
+          "approvedRoomNum": "2A",
+          "approvingHostId": "9734-4f45-9b04-c41348cf7456",
+          "approvedGuestId": "4fef-9305-7ddb91ec81f6",
+          "roomAprovalStatus": "approved",
+        }
+      ]
+      ;(db.query.roomApprovalTable.findMany as jest.Mock).mockReturnValueOnce(allRejectedApprovalsMock) // get all such as this is a mockReturnValueOnce
+
+      const result = await getRejectedApprovalsService()
+      expect(db.query.roomApprovalTable.findMany).toHaveBeenCalled()
+      expect(result).toEqual(allRejectedApprovalsMock)
+    })
+
+    it("should return empty array if no approved approvals", async () => {
+      ;(db.query.roomApprovalTable.findMany as jest.Mock).mockReturnValueOnce([])
+      
+      const result = await getRejectedApprovalsService()
+      expect(db.query.roomApprovalTable.findMany).toHaveBeenCalled()
+      expect(result).toEqual([])
+    })
+  })
 
 })
