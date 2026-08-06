@@ -310,4 +310,172 @@ describe("room approvals services", ()=>{
     })
   })
 
+  describe("updateApprovalByIdService", ()=>{
+    it("should update an approval and return new updated approval", async () => {
+      const updateMock: TIApproval = {
+        "roomAprovalStatus": "pending"
+      }
+
+      const newValueMock = {
+          "approvedRoomNum": "2A",
+          "approvingHostId": "9734-4f45-9b04-c41348cf7456",
+          "approvedGuestId": "4fef-9305-7ddb91ec81f6",
+          "roomAprovalStatus": "pending",
+        }
+
+      const returningMock = jest.fn().mockResolvedValue([newValueMock])
+      const whereMock = jest.fn().mockReturnValue({returning: returningMock})
+      const setMock = jest.fn().mockReturnThis()
+      ;(db.update as jest.Mock).mockReturnValue(
+        {set: setMock,
+        where: whereMock,
+        returning: returningMock}
+      )
+
+      const result = await updateApprovalByIdService("806", updateMock);
+      expect(db.update).toHaveBeenCalledWith(roomApprovalTable)
+      expect(setMock).toHaveBeenCalled()
+      expect(whereMock).toHaveBeenCalledWith(expect.anything())
+      expect(returningMock).toHaveBeenCalled()
+      expect(result).toEqual([newValueMock])
+    })
+
+    // return null || undefined
+    it("should return null if not found", async () => {
+      const returningMock = jest.fn().mockResolvedValue(undefined)
+      const whereMock = jest.fn().mockReturnValue({returning: returningMock})
+      const setMock = jest.fn().mockReturnThis()
+      ;(db.update as jest.Mock).mockReturnValue(
+        {set: setMock,
+        where: whereMock,
+        returning: returningMock}
+      )
+
+      const result = await updateApprovalByIdService();
+      expect(db.update).toHaveBeenCalledWith(roomApprovalTable)
+      expect(setMock).toHaveBeenCalled()
+      expect(whereMock).toHaveBeenCalledWith(expect.anything())
+      expect(returningMock).toHaveBeenCalled()
+      expect(result).toBeUndefined()
+    })
+  })
+
+  describe("updateApprovalByRoomNumService", ()=>{
+    it("should update an approval and return new updated approval", async () => {
+      const updateMock: TIApproval = {
+        "roomAprovalStatus": "pending"
+      }
+
+      const newValueMock = {
+          "approvedRoomNum": "2A",
+          "approvingHostId": "9734-4f45-9b04-c41348cf7456",
+          "approvedGuestId": "4fef-9305-7ddb91ec81f6",
+          "roomAprovalStatus": "pending",
+        }
+
+      const returningMock = jest.fn().mockResolvedValue([newValueMock])
+      const whereMock = jest.fn().mockReturnValue({returning: returningMock})
+      const setMock = jest.fn().mockReturnThis()
+      ;(db.update as jest.Mock).mockReturnValue(
+        {set: setMock,
+        where: whereMock,
+        returning: returningMock}
+      )
+
+      const result = await updateApprovalByRoomNumService("2A", updateMock);
+      expect(db.update).toHaveBeenCalledWith(roomApprovalTable)
+      expect(setMock).toHaveBeenCalled()
+      expect(whereMock).toHaveBeenCalledWith(expect.anything())
+      expect(returningMock).toHaveBeenCalled()
+      expect(result).toEqual([newValueMock])
+    })
+
+    // return null || undefined
+    it("should return null if not found", async () => {
+      const returningMock = jest.fn().mockResolvedValue(undefined)
+      const whereMock = jest.fn().mockReturnValue({returning: returningMock})
+      const setMock = jest.fn().mockReturnThis()
+      ;(db.update as jest.Mock).mockReturnValue(
+        {set: setMock,
+        where: whereMock,
+        returning: returningMock}
+      )
+
+      const result = await updateApprovalByRoomNumService();
+      expect(db.update).toHaveBeenCalledWith(roomApprovalTable)
+      expect(setMock).toHaveBeenCalled()
+      expect(whereMock).toHaveBeenCalledWith(expect.anything())
+      expect(returningMock).toHaveBeenCalled()
+      expect(result).toBeUndefined()
+    })
+  })
+
+  describe("updateApprovalByGuestIdService", ()=>{
+    it("should update an approval and return new updated approval", async () => {
+      const updateMock: TIApproval = {
+        "roomAprovalStatus": "pending"
+      }
+
+      const newValueMock = {
+          "approvedRoomNum": "2A",
+          "approvingHostId": "9734-4f45-9b04-c41348cf7456",
+          "approvedGuestId": "4fef-9305-7ddb91ec81f6",
+          "roomAprovalStatus": "pending",
+        }
+
+      const returningMock = jest.fn().mockResolvedValue([newValueMock])
+      const whereMock = jest.fn().mockReturnValue({returning: returningMock})
+      const setMock = jest.fn().mockReturnThis()
+      ;(db.update as jest.Mock).mockReturnValue(
+        {set: setMock,
+        where: whereMock,
+        returning: returningMock}
+      )
+
+      const result = await updateApprovalByGuestIdService("9734-4f45-9b0", updateMock);
+      expect(db.update).toHaveBeenCalledWith(roomApprovalTable)
+      expect(setMock).toHaveBeenCalled()
+      expect(whereMock).toHaveBeenCalledWith(expect.anything())
+      expect(returningMock).toHaveBeenCalled()
+      expect(result).toEqual([newValueMock])
+    })
+
+    // return null || undefined
+    it("should return null if not found", async () => {
+      const returningMock = jest.fn().mockResolvedValue(undefined)
+      const whereMock = jest.fn().mockReturnValue({returning: returningMock})
+      const setMock = jest.fn().mockReturnThis()
+      ;(db.update as jest.Mock).mockReturnValue(
+        {set: setMock,
+        where: whereMock,
+        returning: returningMock}
+      )
+
+      const result = await updateApprovalByGuestIdService();
+      expect(db.update).toHaveBeenCalledWith(roomApprovalTable)
+      expect(setMock).toHaveBeenCalled()
+      expect(whereMock).toHaveBeenCalledWith(expect.anything())
+      expect(returningMock).toHaveBeenCalled()
+      expect(result).toBeUndefined()
+    })
+  })
+
+  describe("deleteApprovalByIdService", ()=>{
+    it("should delete an approval and return a message", async () => {
+      const approvalId = "798";
+      
+      // note there is not a returning mock since the actual service itself doesn't and thus the where clause is undefined
+      const whereMock = jest.fn().mockResolvedValue(undefined); // Must be awaitable
+      (db.delete as jest.Mock).mockReturnValue({
+        where: whereMock,
+      });
+  
+      const result = await deleteApprovalByIdService(approvalId);
+  
+      expect(db.delete).toHaveBeenCalledWith(roomApprovalTable);
+      expect(whereMock).toHaveBeenCalled();
+      expect(result).toEqual("Approval was successfully deleted");
+    })
+  })
+
 })

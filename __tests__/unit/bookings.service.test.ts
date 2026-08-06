@@ -46,7 +46,7 @@ describe("roomServices", ()=>{
     jest.clearAllMocks()
   });
 
-  describe.skip("createBookingService", ()=>{
+  describe("createBookingService", ()=>{
     it("should create a new room and return a message", async () => {
       const newBookingMock: TIBooking = {
       "bookingRoomNumber": "4A",
@@ -83,7 +83,7 @@ describe("roomServices", ()=>{
     })
   })
 
-  describe.skip("getAllBookingsService", ()=>{
+  describe("getAllBookingsService", ()=>{
     it("should return all bookings", async () => {
       const allBookingsMock = [
         {
@@ -118,7 +118,7 @@ describe("roomServices", ()=>{
     })
   })
 
-  describe.skip("getBookingByIdService", ()=>{
+  describe("getBookingByIdService", ()=>{
     it("get a booking by its id", async () => {
       const bookingId = "a998d2e6c18a"
       const bookingMock = {
@@ -157,7 +157,7 @@ describe("roomServices", ()=>{
 
   })
   
-  describe.skip("getBookingByGuestIdService", ()=>{
+  describe("getBookingByGuestIdService", ()=>{
     it("should return a booking by guestid", async () => {
       const guestId = "hjjd0hjd-dj"
       const resultMock = [{
@@ -211,7 +211,7 @@ describe("roomServices", ()=>{
     })
   })
 
-  describe.skip("updateBookingService", ()=>{
+  describe("updateBookingService", ()=>{
     it("should update a booking nd retutn it", async () => {
       const updateMock: TIBooking = {
         "bookingStatus": "vacant"
@@ -266,7 +266,7 @@ describe("roomServices", ()=>{
     })
   })
   
-  describe.skip("deleteBookingService", ()=>{
+  describe("deleteBookingService", ()=>{
     it("should delete a booking and return a message", async () => {
       const bookingId = "798";
       
