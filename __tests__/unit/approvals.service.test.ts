@@ -47,8 +47,8 @@ describe("room approvals services", ()=>{
     it('should approve a room to a guest', async () => {
       const newMockApproval: TIApproval = {
         "approvedRoomNum": "2A",
-        "approvingHostId": "0295f504-9734-4f45-9b04-c41348cf7456",
-        "approvedGuestId": "6ffad33b-1bbc-4fef-9305-7ddb91ec81f6",
+        "approvingHostId": "4-4f45-9b04-c41348cf7456",
+        "approvedGuestId": "fef-9305-7ddb91ec81f6",
         "roomAprovalStatus": "approved",
       }
       
@@ -83,8 +83,8 @@ describe("room approvals services", ()=>{
       const allApprovalsMock = [
         {
           "approvedRoomNum": "2A",
-          "approvingHostId": "0295f504-9734-4f45-9b04-c41348cf7456",
-          "approvedGuestId": "6ffad33b-1bbc-4fef-9305-7ddb91ec81f6",
+          "approvingHostId": "9734-4f45-9b04-c41348cf7456",
+          "approvedGuestId": "4fef-9305-7ddb91ec81f6",
           "roomAprovalStatus": "approved",
         }
       ]
@@ -110,8 +110,8 @@ describe("room approvals services", ()=>{
       const returnMock = 
         {
           "approvedRoomNum": "2A",
-          "approvingHostId": "0295f504-9734-4f45-9b04-c41348cf7456",
-          "approvedGuestId": "6ffad33b-1bbc-4fef-9305-7ddb91ec81f6",
+          "approvingHostId": "4f45-9b04-c41348cf7456",
+          "approvedGuestId": "4fef-9305-7ddb91ec81f6",
           "roomAprovalStatus": "approved",
       }
 
@@ -142,8 +142,8 @@ describe("room approvals services", ()=>{
       const returnMock = 
         {
           "approvedRoomNum": "2A",
-          "approvingHostId": "0295f504-9734-4f45-9b04-c41348cf7456",
-          "approvedGuestId": "6ffad33b-1bbc-4fef-9305-7ddb91ec81f6",
+          "approvingHostId": "4f45-9b04-c41348cf7456",
+          "approvedGuestId": "05-7ddb91ec81f6",
           "roomAprovalStatus": "approved",
       }
 
@@ -167,5 +167,71 @@ describe("room approvals services", ()=>{
       expect(result).toBeNull()
     })
   })
+
+  describe('getApprovalByGuestIdService', ()=>{
+    it('should get an approval through its room num', async () => {
+      const approvedGuestId = '9b04-c41348cf7456'
+      const returnMock = 
+        {
+          "approvedRoomNum": "2A",
+          "approvingHostId": "c41348cf7456",
+          "approvedGuestId": "9b04-c41348cf7456",
+          "roomAprovalStatus": "approved",
+      }
+
+      const returningMock = jest.fn().mockResolvedValue(returnMock)
+        ;(db.query.roomApprovalTable.findFirst as jest.Mock).mockResolvedValue(returnMock)
+
+      const result = await getApprovalByRoomNumService(approvedGuestId)
+      expect(db.query.roomApprovalTable.findFirst).toHaveBeenCalledWith(expect.objectContaining({
+        where: expect.anything(),
+      }));
+      expect(result).toBe(returnMock)
+    })
+
+    it("should return null if not found", async () => {
+      ;(db.query.roomApprovalTable.findFirst as jest.Mock).mockResolvedValue(null)
+
+      const result = await getApprovalByGuestIdService()
+      expect(db.query.roomApprovalTable.findFirst).toHaveBeenCalledWith(expect.objectContaining({
+        where: expect.anything(),
+      }));
+      expect(result).toBeNull()
+    })
+  })
+
+  describe('getApprovalByHostIdService', ()=>{
+    it('should get an approval through hostId', async () => {
+      const approvingHostId = '41348cf7456'
+      const returnMock = 
+        {
+          "approvedRoomNum": "2A",
+          "approvingHostId": "c41348cf7456",
+          "approvedGuestId": "9b04-c41348cf7456",
+          "roomAprovalStatus": "approved",
+      }
+
+      const returningMock = jest.fn().mockResolvedValue(returnMock)
+        ;(db.query.roomApprovalTable.findFirst as jest.Mock).mockResolvedValue(returnMock)
+
+      const result = await getApprovalByRoomNumService(approvingHostId)
+      expect(db.query.roomApprovalTable.findFirst).toHaveBeenCalledWith(expect.objectContaining({
+        where: expect.anything(),
+      }));
+      expect(result).toBe(returnMock)
+    })
+
+    it("should return null if not found", async () => {
+      ;(db.query.roomApprovalTable.findFirst as jest.Mock).mockResolvedValue(null)
+
+      const result = await getApprovalByHostIdService()
+      expect(db.query.roomApprovalTable.findFirst).toHaveBeenCalledWith(expect.objectContaining({
+        where: expect.anything(),
+      }));
+      expect(result).toBeNull()
+    })
+  })
+
+  
 
 })
