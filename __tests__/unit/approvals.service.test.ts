@@ -1,0 +1,107 @@
+import { describe, it, beforeEach, afterEach, expect, jest } from "@jest/globals";
+import * as db from "../../src/Drizzle/db"
+import { roomApprovalTable, TIApproval } from "../../src/Drizzle/schema";
+import { createApprovalService, getAllApprovalsService, getApprovalByIdService, getApprovalByRoomNumService, getApprovalByGuestIdService, getApprovalByHostIdService, getPendingApprovalsService, getApprovedApprovalsService, getRejectedApprovalsService, updateApprovalByIdService, updateApprovalByRoomNumService, updateApprovalByGuestIdService, deleteApprovalByIdService, deleteApprovalByRoomNumService  } from "../../src/approvals/approvals.service";
+
+const approvalValueMock = {
+  approvalId: "0295f504-9734-4f4",
+  approvedRoomNum: "2A",
+  approvingHostId: "0295f504-9734-4f45-9b04-c41348cf7456",
+  approvedGuestId: "6ffad33b-1bbc-4fef-9305-7ddb91ec81f6",
+  roomAprovalStatus: "approved"
+}
+  
+// jest db mock
+jest.mock('../../src/Drizzle/db', ()=>{
+  const dbMock = {
+    insert: jest.fn(),
+    select: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
+    query: {
+      roomApprovalTable: {
+        findFirst: jest.fn(),
+        findMany: jest.fn(),
+      },
+    },
+  }
+
+  return {
+    __esModule: true,
+    default: dbMock,
+    ...dbMock,
+  }
+})
+
+describe("room approvals services", ()=>{
+  beforeEach(()=>{
+    jest.clearAllMocks()
+  })
+
+  afterEach(()=>{
+    jest.clearAllMocks()
+  });
+
+
+  describe("createApprovalService", ()=>{
+    it('should approve a room to a guest', async () => {
+      const newMockApproval: TIApproval = {
+        "approvedRoomNum": "2A",
+        "approvingHostId": "0295f504-9734-4f45-9b04-c41348cf7456",
+        "approvedGuestId": "6ffad33b-1bbc-4fef-9305-7ddb91ec81f6",
+        "roomAprovalStatus": "approved",
+      }
+      
+      const returningMock = jest.fn().mockResolvedValue(approvalValueMock)
+      const retunValueMock = jest.fn().mockReturnValue({returning: returningMock})
+        ;(db.insert as jest.Mock).mockReturnValue({values: retunValueMock})
+
+        const result = await createApprovalService(newMockApproval)
+        expect(db.insert).toHaveBeenCalledWith(roomApprovalTable)
+        expect(retunValueMock).toHaveBeenCalledWith(newMockApproval)
+        expect(returningMock).toHaveBeenCalled()
+        expect(result).toEqual(approvalValueMock)
+      
+    })
+
+    it("should return null if approval is not created", async () => {
+      const returningMock = jest.fn().mockResolvedValue(null)
+      const returnValueMock = jest.fn().mockReturnValue({returning: returningMock})
+        ;(db.insert as jest.Mock).mockReturnValue({values: returnValueMock})
+
+      const result = await createApprovalService()
+      expect(db.insert).toHaveBeenCalledWith(roomApprovalTable)
+      expect(returnValueMock).toHaveBeenCalled()
+      expect(returningMock).toHaveBeenCalled()
+      expect(result).toBeNull()
+    })
+
+  })
+
+  describe("getAllApprovalsService", ()=>{
+    it("get all approvals", async () => {
+      const allApprovalsMock = [
+        {
+          "approvedRoomNum": "2A",
+          "approvingHostId": "0295f504-9734-4f45-9b04-c41348cf7456",
+          "approvedGuestId": "6ffad33b-1bbc-4fef-9305-7ddb91ec81f6",
+          "roomAprovalStatus": "approved",
+        }
+      ]
+      ;(db.query.roomApprovalTable.findMany as jest.Mock).mockReturnValueOnce(allApprovalsMock) // get all such as this is a mockReturnValueOnce
+
+      const result = await getAllApprovalsService()
+      expect(db.query.roomApprovalTable.findMany).toHaveBeenCalled()
+      expect(result).toEqual(allApprovalsMock)
+    })
+
+    it("should return empty array if no approvals", async () => {
+      ;(db.query.roomApprovalTable.findMany as jest.Mock).mockReturnValueOnce([])
+      
+      const result = await getAllApprovalsService()
+      expect(db.query.roomApprovalTable.findMany).toHaveBeenCalled()
+      expect(result).toEqual([])
+    })
+  })
+
+})

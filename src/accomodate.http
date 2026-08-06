@@ -67,14 +67,14 @@ Content-Type: application/json
     "address": "Pamki Building, Kimathi way Nyeri down town",
     "maxGuest": 2,
     "pricePerNight": "1500.00"
-  },
-  {
-    "roomNumber": "3A",
-    "roomDescription": "One bedroom: one bathroom, one dinning room, dinner and breakfast included",
-    "address": "Pamki Building, Kimathi way Nyeri down town",
-    "maxGuest": 3,
-    "pricePerNight": "2000.00"
   }
+  # {
+  #   "roomNumber": "3A",
+  #   "roomDescription": "One bedroom: one bathroom, one dinning room, dinner and breakfast included",
+  #   "address": "Pamki Building, Kimathi way Nyeri down town",
+  #   "maxGuest": 3,
+  #   "pricePerNight": "2000.00"
+  # }
 ]
 ### Get all rooms
 GET http://localhost:3000/auth/rooms/getall
@@ -99,11 +99,11 @@ PATCH http://localhost:3000/auth/rooms/roomupdate/2A
 Content-Type: application/json
 
 {
-  "roomstatus": "assigned"
+  "roomstatus": "occupied"
 }
 
 ###delete room by number
-DELETE http://localhost:3000/auth/rooms/roomdelete/
+DELETE http://localhost:3000/auth/rooms/roomdelete/2A
 
 # GUESTS
 ### Create a guest

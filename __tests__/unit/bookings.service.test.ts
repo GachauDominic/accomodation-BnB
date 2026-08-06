@@ -2,7 +2,6 @@ import { describe, it, beforeEach, afterEach, expect, jest } from "@jest/globals
 import * as db from "../../src/Drizzle/db"
 import { bookingsTable, guestsTable, TIBooking } from "../../src/Drizzle/schema";
 import { createBookingService, deleteBookingService, getAllBookingsService, getBookingByGuestIdService, getBookingByIdService, updateBookingService } from "../../src/bookings/booking.service"
-import { except } from "drizzle-orm/gel-core";
 
 const valueBookingMock = {
   "bookingId": "b4098ec1-5775-48b2-8a42-a998d2e6c18a",
@@ -70,7 +69,7 @@ describe("roomServices", ()=>{
       expect(result).toEqual(valueBookingMock)
     })
 
-    // retun nullon creation error
+    // retun null on creation error
     it("should return null if not created", async () => {
       const returningMock = jest.fn().mockResolvedValue(null)
       const returnValueMock = jest.fn().mockReturnValue({returning: returningMock})
@@ -100,7 +99,7 @@ describe("roomServices", ()=>{
         },
         valueBookingMock,
       ]
-      // const returnValueMock = jest.fn().mockResolvedValue(allBookingsMock) get a;;does not require this line
+      // const returnValueMock = jest.fn().mockResolvedValue(allBookingsMock) get all ;does not require this line
       ;(db.query.bookingsTable.findMany as jest.Mock).mockReturnValueOnce(allBookingsMock) // get all such as this is a mockReturnValueOnce
 
       const result = await getAllBookingsService()

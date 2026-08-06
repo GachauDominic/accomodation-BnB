@@ -5,7 +5,7 @@ import { adminRoleAuth } from "../middleware/bearAuth";
 const approvals = (app: Express)=>{
   // create approval
   app.route("/auth/approval/create").post(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await createApprovalController(req, res)
@@ -16,7 +16,7 @@ const approvals = (app: Express)=>{
 
   // get all approvals
   app.route("/auth/approvals").get(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await getAllApprovalsController(req, res)
@@ -27,7 +27,7 @@ const approvals = (app: Express)=>{
 
   // get approval by its id
   app.route("/auth/approvals/approvalbyid/:approvalId").get(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await getApprovalByIdController(req, res)
@@ -38,7 +38,7 @@ const approvals = (app: Express)=>{
 
   // get approval by room num
   app.route("/auth/approvals/approvalbyroomnum/:roomNum").get(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await getApprovalByRoomNumController(req, res)
@@ -49,7 +49,7 @@ const approvals = (app: Express)=>{
   
   // get approval by guest id
   app.route("/auth/approvals/approvalbyguestid/:guestId").get(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await getApprovalByGuestIdController(req, res)
@@ -60,7 +60,7 @@ const approvals = (app: Express)=>{
 
   // get pending approvals
   app.route("/auth/approvals/pending").get(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await getPendingApprovalsController(req, res)
@@ -71,7 +71,7 @@ const approvals = (app: Express)=>{
   
   // get approved approvals
   app.route("/auth/approvals/approved").get(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await getApprovedApprovalsController(req, res)
@@ -82,7 +82,7 @@ const approvals = (app: Express)=>{
   
   // get rejected approvals
   app.route("/auth/approvals/rejected").get(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await getRejectedApprovalsController(req, res)
@@ -93,7 +93,7 @@ const approvals = (app: Express)=>{
 
   // update approval by its id
   app.route("/auth/approvals/update/updatebyid/:approvalId").patch(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await updateApprovalByIdController(req, res)
@@ -104,7 +104,7 @@ const approvals = (app: Express)=>{
 
   // update approval by room num
   app.route("/auth/approvals/update/updatebyroomnum/:roomNum").patch(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await updateApprovalByRoomNumController(req, res)
@@ -115,7 +115,7 @@ const approvals = (app: Express)=>{
 
   // update approval by guest id
   app.route("/auth/approvals/update/updatebyguestid/:guestId").patch(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await updateApprovalByGuestIdController(req, res)
@@ -126,7 +126,7 @@ const approvals = (app: Express)=>{
 
   // delete approval by its id
   app.route("/auth/approvals/delete/deletebyid/:approvalId").patch(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
   try {
     await deleteApprovalByIdController(req, res)
@@ -137,7 +137,7 @@ const approvals = (app: Express)=>{
 
   // delete approval by room num
   app.route("/auth/approvals/delete/deletebyroomnum/:roomNum").patch(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
   try {
     await deleteApprovalByRoomNumController(req, res)

@@ -6,7 +6,7 @@ import { adminRoleAuth, bothRoleAuth } from "../middleware/bearAuth";
 const rooms = (app: Express)=>{
   // create room
   app.route("/auth/rooms/create").post(
-    adminRoleAuth,
+    // adminRoleAuth,
     async (req, res, next) => {
     try {
       await createRoomController(req, res)
