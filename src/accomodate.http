@@ -297,7 +297,10 @@ POST http://localhost:3000/auth/approval/create
 Content-Type: application/json
 
 {
-
+  "approvedRoomNum": "2A",
+  "approvingHostId": "0295f504-9734-4f45-9b04-c41348cf7456",
+  "approvedGuestId": "6ffad33b-1bbc-4fef-9305-7ddb91ec81f6",
+  "roomAprovalStatus": "approved"
 }
 
 ###get all approvals

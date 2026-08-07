@@ -40,7 +40,7 @@ describe("Guest services", () => {
   })
 
    // creation of guest
-  describe.skip("createGuestService", ()=>{
+  describe("createGuestService", ()=>{
     it("should create a guest and return a the data of the guest", async()=>{
       const guest = {
         guestFirstName: "Mikel",
@@ -63,7 +63,7 @@ describe("Guest services", () => {
   });
 
   // login guest
-  describe.skip("loginGuestService", ()=>{
+  describe("loginGuestService", ()=>{
     it("should login a guest and have a returning value", async () => {
       const loginDetails = {
         "guestContact": "0795063598"
@@ -84,7 +84,7 @@ describe("Guest services", () => {
   });
   
   // get all guest
-  describe.skip("getAllGuestService", ()=>{
+  describe("getAllGuestService", ()=>{
     it("should get all available guest and return an array of object", async () => {
       const mockGuests = [
         {
@@ -133,7 +133,7 @@ describe("Guest services", () => {
   });
 
   // get guest by contact
-  describe.skip("getGuestByContactService", ()=>{
+  describe("getGuestByContactService", ()=>{
     it("should return a guest by contact", async () => {
       const guestContact = "070865564";
       const mockGuestResult = [{
@@ -180,7 +180,7 @@ describe("Guest services", () => {
   });
 
   // get guest by room num
-  describe.skip("getGuestByRoomService", () => {
+  describe("getGuestByRoomService", () => {
     it("should return guest by guest room", async () => {
       const guestRoomNum = "1A";
       const mockGuestResult = [
@@ -233,7 +233,7 @@ describe("Guest services", () => {
   
   // update guest by contact
   
-  describe.skip("updateGuestService", () => {
+  describe("updateGuestService", () => {
     it("updates a guest by contact and returns the updated guest", async () => {
       const guestContact = "070865564";
       const updateGuest = { guestFirstName: "Mikel" };
@@ -282,7 +282,7 @@ describe("Guest services", () => {
   });
 
   // delete guest by contact
-  describe.skip("deleteGuestService", () => {
+  describe("deleteGuestService", () => {
     it("should delete a guest from the db and return a message", async () => {
       const guestContact = "070865564";
       
