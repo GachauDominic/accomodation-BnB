@@ -6,7 +6,7 @@ CREATE TYPE "public"."roomStatusEnum" AS ENUM('vacant', 'booked', 'occupied');--
 CREATE TYPE "public"."userRoleEnum" AS ENUM('hostAdmin', 'guest');--> statement-breakpoint
 CREATE TABLE "bookings" (
 	"bookingId" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"bookingRoomId" varchar NOT NULL,
+	"bookingRoomNumber" varchar NOT NULL,
 	"bookingGuestId" uuid,
 	"checkinDate" timestamp NOT NULL,
 	"checkoutDate" timestamp NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE "rooms" (
 	"roomStatus" "roomStatusEnum" DEFAULT 'vacant' NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE "bookings" ADD CONSTRAINT "bookings_bookingRoomId_rooms_roomNumber_fk" FOREIGN KEY ("bookingRoomId") REFERENCES "public"."rooms"("roomNumber") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "bookings" ADD CONSTRAINT "bookings_bookingRoomNumber_rooms_roomNumber_fk" FOREIGN KEY ("bookingRoomNumber") REFERENCES "public"."rooms"("roomNumber") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "bookings" ADD CONSTRAINT "bookings_bookingGuestId_guests_guestId_fk" FOREIGN KEY ("bookingGuestId") REFERENCES "public"."guests"("guestId") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "guests" ADD CONSTRAINT "guests_guestRoomNumber_rooms_roomNumber_fk" FOREIGN KEY ("guestRoomNumber") REFERENCES "public"."rooms"("roomNumber") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "payments" ADD CONSTRAINT "payments_paymentBookingId_bookings_bookingId_fk" FOREIGN KEY ("paymentBookingId") REFERENCES "public"."bookings"("bookingId") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint

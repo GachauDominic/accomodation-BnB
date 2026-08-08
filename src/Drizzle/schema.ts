@@ -67,7 +67,7 @@ export const guestsTable = pgTable("guests", {
 //  {bookings table}
 export const bookingsTable = pgTable("bookings", {
   bookingId: uuid("bookingId").primaryKey().defaultRandom().notNull(),
-  bookingRoomNumber: varchar("bookingRoomId").references(()=> roomsTable.roomNumber, {onDelete: "cascade"}).notNull(),
+  bookingRoomNumber: varchar("bookingRoomNumber").references(()=> roomsTable.roomNumber, {onDelete: "cascade"}).notNull(),
   bookingGuestId: uuid("bookingGuestId").references(()=> guestsTable.guestId, {onDelete: "cascade"}),
   checkinDate: timestamp("checkinDate").notNull(),
   checkoutDate: timestamp("checkoutDate").notNull(),

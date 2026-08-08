@@ -23,7 +23,7 @@ Content-Type: application/json
 # }
 
 ### get host by id
-GET http://localhost:3000/auth/hosts/getbyid/b4bd4ce6-03d4-4bd3-83bc-6123acf28b15
+GET http://localhost:3000/auth/hosts/getbyid/1ba7b56f-84ca-43e2-8c07-13c5c27a33fb
 
 ### get all hosts
 GET http://localhost:3000/auth/hosts/get
@@ -43,17 +43,17 @@ DELETE http://localhost:3000/auth/hosts/delete/5f32515f-160c-43aa-ad29-80edb4e77
 # ROOMS
 ###create a room
 POST http://localhost:3000/auth/rooms/create
+Bearer: <eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0UGFzc3dvcmRIYXNoIjoiJDJiJDA1JGsyWTROa1dpMi9CenhZUW9lemR3VWUwM3hndUNkV0lZbmR6a1NKMnJ3Q2Jzb2RVODBGSU4yIiwiaG9zdEFkbWluSWQiOiIxYmE3YjU2Zi04NGNhLTQzZTItOGMwNy0xM2M1YzI3YTMzZmIiLCJmaXJzdE5hbWUiOiJEb21pbmljIiwibGFzdE5hbWUiOiJNYWluYSIsInJvbGUiOiJob3N0QWRtaW4iLCJleHAiOjE3ODYyOTE5NTYsImlhdCI6MTc4NjIwNTU1Nn0.1MPz6EY3qJVr3PQym02v57nt_2UizgYrgJGkTDyaiHY>
 Content-Type: application/json
 
-# {
-#   "roomNumber": "8B",
-#   "roomDescription": "Studio apartment: one bathroom, one bedroom, one dinning room, balcony, dinner and breakfast included",
-#   "address": "Pamki Building, Kimathi way Nyeri down town",
-#   "maxGuest": 2,
-#   "pricePerNight": "2000.00"
-# }
-
 [
+{
+  "roomNumber": "4A",
+  "roomDescription": "Studio apartment: one bathroom, one bedroom, one dinning room, balcony, dinner and breakfast included",
+  "address": "Pamki Building, Kimathi way Nyeri down town",
+  "maxGuest": 2,
+  "pricePerNight": "2000.00"
+},
   {
     "roomNumber": "1A",
     "roomDescription": "Bedsitter: one bathroom, one bed, dinner and breakfast included",
@@ -67,20 +67,20 @@ Content-Type: application/json
     "address": "Pamki Building, Kimathi way Nyeri down town",
     "maxGuest": 2,
     "pricePerNight": "1500.00"
+  },
+  {
+    "roomNumber": "3A",
+    "roomDescription": "One bedroom: one bathroom, one dinning room, dinner and breakfast included",
+    "address": "Pamki Building, Kimathi way Nyeri down town",
+    "maxGuest": 3,
+    "pricePerNight": "2000.00"
   }
-  # {
-  #   "roomNumber": "3A",
-  #   "roomDescription": "One bedroom: one bathroom, one dinning room, dinner and breakfast included",
-  #   "address": "Pamki Building, Kimathi way Nyeri down town",
-  #   "maxGuest": 3,
-  #   "pricePerNight": "2000.00"
-  # }
 ]
 ### Get all rooms
 GET http://localhost:3000/auth/rooms/getall
 
 ###get room by num
-GET http://localhost:3000/auth/rooms/roombynum/5A
+GET http://localhost:3000/auth/rooms/roombynum/4A
 
 ###get room by guest contact
 GET http://localhost:3000/auth/room/roombycontact/0725638931
@@ -108,16 +108,17 @@ DELETE http://localhost:3000/auth/rooms/roomdelete/2A
 # GUESTS
 ### Create a guest
 POST http://localhost:3000/auth/guest/register
+Authorization: : Bearer<eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0UGFzc3dvcmRIYXNoIjoiJDJiJDA1JGsyWTROa1dpMi9CenhZUW9lemR3VWUwM3hndUNkV0lZbmR6a1NKMnJ3Q2Jzb2RVODBGSU4yIiwiaG9zdEFkbWluSWQiOiIxYmE3YjU2Zi04NGNhLTQzZTItOGMwNy0xM2M1YzI3YTMzZmIiLCJmaXJzdE5hbWUiOiJEb21pbmljIiwibGFzdE5hbWUiOiJNYWluYSIsInJvbGUiOiJob3N0QWRtaW4iLCJleHAiOjE3ODYyOTE5NTYsImlhdCI6MTc4NjIwNTU1Nn0.1MPz6EY3qJVr3PQym02v57nt_2UizgYrgJGkTDyaiHY>
 Content-Type: application/json
 
-# [
+
 # {
-#   "guestFirstName": "Dom",
+#   "guestFirstName": "ken",
 #   "guestLastName": "Maish",
-#   "guestContact": "0700000000",
-#   "guestEmail": "gachaudominic@gmail.com",
-#   "guestPassword": "dom@123"
-# },
+#   "guestContact": "070034800",
+#   "guestEmail": "ken@gmail.com",
+#   "guestPassword": "ken@123"
+# }
 # {
 #   "guestFirstName": "John",
 #   "guestLastName": "Kiai",
@@ -125,50 +126,51 @@ Content-Type: application/json
 #   "guestEmail": "johnkiai@example.com",
 #   "guestPassword": "jkiai@123"
 # }
-# ]
-
-{
-  "guestFirstName": "Mitch",
-  "guestLastName": "Nduta",
-  "guestContact": "0725638931",
-  "guestEmail": "mnduta@example.com",
-  "guestPassword": "mnduta@123"
-
-}
 # {
-#   "guestFirstName": "John",
+#   "guestFirstName": "Mitch",
+#   "guestLastName": "Nduta",
+#   "guestContact": "0725638931",
+#   "guestEmail": "mnduta@example.com",
+#   "guestPassword": "mnduta@123"
+# }
+# {
+#   "guestFirstName": "James",
 #   "guestLastName": "Kiamba",
 #   "guestContact": "0747892890",
-#   "guestEmail": "johnkiamba@example.com",
+#   "guestEmail": "jameskiamba@example.com",
 #   "guestPassword": "jkiamba@123"
 # }
+
 
 ### login guest
 POST http://localhost:3000/auth/guest/login
 Content-Type: application/json
 
 {
-  "guestContact": "0795063598"
+  "guestContact": "0747892890"
 }
 
 ### Get all guests
 GET http://localhost:3000/auth/guests
 
 ### get guest by id
-GET http://localhost:3000/auth/guest/guestbyid/ee6e1b75-edb1-46dd-9c57-ae8bbcc40f07
+GET http://localhost:3000/auth/guest/guestbyid/9ce1e5ad-d3ab-4465-8e90-bbc67bcea8b7
+Authorization: Bearer <eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0UGFzc3dvcmRIYXNoIjoiJDJiJDA1JGsyWTROa1dpMi9CenhZUW9lemR3VWUwM3hndUNkV0lZbmR6a1NKMnJ3Q2Jzb2RVODBGSU4yIiwiaG9zdEFkbWluSWQiOiIxYmE3YjU2Zi04NGNhLTQzZTItOGMwNy0xM2M1YzI3YTMzZmIiLCJmaXJzdE5hbWUiOiJEb21pbmljIiwibGFzdE5hbWUiOiJNYWluYSIsInJvbGUiOiJob3N0QWRtaW4iLCJleHAiOjE3ODYyOTE5NTYsImlhdCI6MTc4NjIwNTU1Nn0.1MPz6EY3qJVr3PQym02v57nt_2UizgYrgJGkTDyaiHY>
+
 
 ### get guest by contact
-GET http://localhost:3000/auth/guest/guestbycontact/0725638931
+GET http://localhost:3000/auth/guest/guestbycontact/0747892890
+Authorization: Bearer <eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0UGFzc3dvcmRIYXNoIjoiJDJiJDA1JGsyWTROa1dpMi9CenhZUW9lemR3VWUwM3hndUNkV0lZbmR6a1NKMnJ3Q2Jzb2RVODBGSU4yIiwiaG9zdEFkbWluSWQiOiIxYmE3YjU2Zi04NGNhLTQzZTItOGMwNy0xM2M1YzI3YTMzZmIiLCJmaXJzdE5hbWUiOiJEb21pbmljIiwibGFzdE5hbWUiOiJNYWluYSIsInJvbGUiOiJob3N0QWRtaW4iLCJleHAiOjE3ODYyOTE5NTYsImlhdCI6MTc4NjIwNTU1Nn0.1MPz6EY3qJVr3PQym02v57nt_2UizgYrgJGkTDyaiHY>
 
 ### get guest by roomnum
 GET http://localhost:3000/auth/guest/guestbyroomnum/5A
 
 ### update guest by contact
-PATCH  http://localhost:3000/auth/guest/updateguest/0725638931
+PATCH  http://localhost:3000/auth/guest/updateguest/0747892890
 Content-Type: application/json
 
 {
-  "guestRoomNumber": "5A"
+  "guestRoomNumber": "1A"
 }
 
 ### delete guest
@@ -181,8 +183,8 @@ POST http://localhost:3000/auth/booking/create
 Content-Type: application/json
 
 {
-  "bookingRoomNumber": "2A",
-  "bookingGuestId": "6ffad33b-1bbc-4fef-9305-7ddb91ec81f6",
+  "bookingRoomNumber": "1A",
+  "bookingGuestId": "9ce1e5ad-d3ab-4465-8e90-bbc67bcea8b7",
   "checkinDate": "2026-07-16",
   "checkoutDate": "2026-07-18",
   "guestCount": 1,
@@ -294,6 +296,8 @@ DELETE http://localhost:3000/auth/reviews/delete/f58486bf-07cb-4aa8-ae02-5929506
 # ROOMS APPROVALS
 ### create approval
 POST http://localhost:3000/auth/approval/create
+Authorization: Bearer <eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0UGFzc3dvcmRIYXNoIjoiJDJiJDA1JGdPMXhHbGxzcERxeEpwd044aklVVy45RC5PbG92TGJQWkdrQ1E0VlhPMWxKS2haaG9CVWh1IiwiaG9zdEFkbWluSWQiOiIwMjk1ZjUwNC05NzM0LTRmNDUtOWIwNC1jNDEzNDhjZjc0NTYiLCJmaXJzdE5hbWUiOiJEb21pbmljIiwibGFzdE5hbWUiOiJNYWluYSIsInJvbGUiOiJob3N0QWRtaW4iLCJleHAiOjE3ODYyNzc4OTMsImlhdCI6MTc4NjE5MTQ5M30.xNrlGB4WOWWtvts8OMSK3fDmzzL0JbIaiaHGh932pyA>
+
 Content-Type: application/json
 
 {

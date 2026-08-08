@@ -1,5 +1,5 @@
 {
-  "id": "f4630d35-75d7-4169-9a0d-c8af648f63e6",
+  "id": "104ce0f3-5d35-4828-8787-ba208a9ac576",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -15,8 +15,8 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "bookingRoomId": {
-          "name": "bookingRoomId",
+        "bookingRoomNumber": {
+          "name": "bookingRoomNumber",
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
@@ -68,12 +68,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "bookings_bookingRoomId_rooms_roomNumber_fk": {
-          "name": "bookings_bookingRoomId_rooms_roomNumber_fk",
+        "bookings_bookingRoomNumber_rooms_roomNumber_fk": {
+          "name": "bookings_bookingRoomNumber_rooms_roomNumber_fk",
           "tableFrom": "bookings",
           "tableTo": "rooms",
           "columnsFrom": [
-            "bookingRoomId"
+            "bookingRoomNumber"
           ],
           "columnsTo": [
             "roomNumber"
