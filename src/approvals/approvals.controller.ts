@@ -193,7 +193,7 @@ export const deleteApprovalByIdController = async (req: Request, res: Response) 
 
     const deletedApproval = await deleteApprovalByIdService(approvalId)
     if (!deletedApproval) return res.status(400).json({message: "Unable to delete approval!"})
-      return res.status(200).json({message: "Approval deleted successfully"})
+      return res.status(204).json({message: "Approval deleted successfully"})
   } catch (error: any) {
     return res.status(500).json({error: error.message})
   }

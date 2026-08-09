@@ -38,7 +38,6 @@ jest.mock("../../src/auth/auth.service", () => ({
 const approvalService = require("../../src/approvals/approvals.service");
 const guestService = require("../../src/guests/guest.service");
 const roomService = require("../../src/rooms/room.service");
-const authService = require("../../src/auth/auth.service");
 
 const mockResponse = () => {
   const res: any = {};
@@ -51,6 +50,10 @@ describe("Approvals controller (integration - mocked services)", () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
+
+  afterAll(() => {
+    jest.clearAllMocks();
+  })
 
   it("createApprovalController - returns 201 on success", async () => {
     const mockApproval = {
@@ -78,7 +81,22 @@ describe("Approvals controller (integration - mocked services)", () => {
   });
 
   it("getAllApprovalsController - returns 200 with data", async () => {
-    const list = [{ approvalId: "a1" }];
+    const list = [
+      {
+        approvalId: "a1",
+        approvedRoomNum: "101",
+        approvingHostId: "h1",
+        approvedGuestId: "g1",
+        roomAprovalStatus: "pending",
+      },
+      {
+        approvalId: "a2",
+        approvedRoomNum: "102",
+        approvingHostId: "h2",
+        approvedGuestId: "g2",
+        roomAprovalStatus: "approved",
+      },
+    ];
     approvalService.getAllApprovalsService.mockResolvedValue(list);
 
     const req: any = {};
@@ -100,7 +118,13 @@ describe("Approvals controller (integration - mocked services)", () => {
   });
 
   it("getApprovalByIdController - returns 200 with approval when found", async () => {
-    const mockApproval = { approvalId: "a1" };
+    const mockApproval = {
+      approvalId: "a1",
+      approvedRoomNum: "101",
+      approvingHostId: "h1",
+      approvedGuestId: "g1",
+      roomAprovalStatus: "pending",
+    };
     approvalService.getApprovalByIdService.mockResolvedValue(mockApproval);
 
     const req: any = { params: { approvalId: "a1" } };
@@ -220,7 +244,7 @@ describe("Approvals controller (integration - mocked services)", () => {
 
     await deleteApprovalByIdController(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.status).toHaveBeenCalledWith(204);
     expect(res.json).toHaveBeenCalledWith({
       message: "Approval deleted successfully",
     });
