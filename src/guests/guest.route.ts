@@ -5,7 +5,7 @@ import { adminRoleAuth, bothRoleAuth, userRoleAuth } from "../middleware/bearAut
 const guest = (app: Express)=>{
   // create guest
   app.route("/auth/guest/register").post(
-    // adminRoleAuth,
+    bothRoleAuth,
     async (req,res,next) => {
     try {
       await createGuestController(req,res)
@@ -16,8 +16,6 @@ const guest = (app: Express)=>{
 
   // login guest
   app.route("/auth/guest/login").post(
-    // bothRoleAuth,
-    // userRoleAuth,
     async (req, res, next) => {
     try {
       await loginGuestController(req, res)
@@ -28,7 +26,7 @@ const guest = (app: Express)=>{
 
   // get all guest
   app.route("/auth/guests").get(
-    // adminRoleAuth,
+    adminRoleAuth,
     async (req,res,next) => {
     try {
       await getAllGuestController(req, res)
@@ -39,7 +37,7 @@ const guest = (app: Express)=>{
 
   // get guest by id
   app.route("/auth/guest/guestbyid/:guestId").get(
-    // bothRoleAuth,
+    bothRoleAuth,
     async (req,res,next) => {
     try {
       await guestByIdController(req,res)
@@ -50,7 +48,7 @@ const guest = (app: Express)=>{
   
   // get guest by contact
   app.route("/auth/guest/guestbycontact/:guestContact").get(
-    // bothRoleAuth,
+    bothRoleAuth,
     async (req,res,next) => {
     try {
       await guestByContactController(req,res)
@@ -61,7 +59,7 @@ const guest = (app: Express)=>{
   
   // get guest by room num
   app.route("/auth/guest/guestbyroomnum/:guestRoomNum").get(
-    // bothRoleAuth,
+    bothRoleAuth,
     async (req,res,next) => {
     try {
       await guestByRoomController(req,res)
@@ -72,7 +70,7 @@ const guest = (app: Express)=>{
 
   // update guest by contact
   app.route("/auth/guest/updateguest/:guestContact").patch(
-    // bothRoleAuth,
+    bothRoleAuth,
     async (req,res,next) => {
     try {
       await updateguestController(req,res)
@@ -83,8 +81,7 @@ const guest = (app: Express)=>{
 
   // delete guest by contact
   app.route("/auth/guest/deleteguestbycontact/:guestContact").delete(
-    // bothRoleAuth,
-    // adminRoleAuth,
+    bothRoleAuth,
     async (req, res, next) => {
     try {
       await deleteGuestController(req, res)
@@ -95,8 +92,7 @@ const guest = (app: Express)=>{
 
   // delete guest by id 
   app.route("/auth/guest/deleteguestbyid/:guestId").delete(
-    // bothRoleAuth,
-    // adminRoleAuth,
+    bothRoleAuth,
     async (req, res, next) => {
     try {
       await deleteGuestController(req, res)
@@ -104,7 +100,5 @@ const guest = (app: Express)=>{
       next(error)
     }
   });
-
-
 }
 export default guest;

@@ -5,7 +5,7 @@ import { adminRoleAuth, bothRoleAuth } from "../middleware/bearAuth";
 const reviews = (app: Express)=>{
   // create review
   app.route("/auth/reviews/create").post(
-    // bothRoleAuth,
+    bothRoleAuth,
     async (req, res, next) => {
     try {
       await createReviewController(req, res)
@@ -16,7 +16,7 @@ const reviews = (app: Express)=>{
 
   // get all reviews
   app.route("/auth/reviews/all").get(
-    // adminRoleAuth,
+    adminRoleAuth,
     async (req, res, next) => {
     try {
       await getAllReviewController(req, res)
@@ -27,7 +27,7 @@ const reviews = (app: Express)=>{
 
   // get review by its id
   app.route("/auth/reviews/byid/:reviewId").get(
-    // adminRoleAuth,
+    adminRoleAuth,
     async (req, res, next) => {
     try {
       await getReviewByIdController(req, res)
@@ -38,7 +38,7 @@ const reviews = (app: Express)=>{
 
   //  get review by room num
   app.route("/auth/reviews/byroomnum/:roomNum").get(
-    // bothRoleAuth,
+    bothRoleAuth,
     async (req, res, next) => {
     try {
       await getReviewByGuestIdController(req, res)
@@ -49,7 +49,7 @@ const reviews = (app: Express)=>{
 
   // update review by its id
   app.route("/auth/reviews/update/byid/:reviewId").patch(
-    // adminRoleAuth,
+    adminRoleAuth,
     async (req, res, next) => {
     try {
       await updateReviewByIdController(req, res)
@@ -60,7 +60,7 @@ const reviews = (app: Express)=>{
 
   // update review by guest id
    app.route("/auth/reviews/update/guestid/:guestId").patch(
-    // bothRoleAuth,
+    bothRoleAuth,
     async (req, res, next) => {
     try {
       await updateReviewByGuestIdController(req, res)
@@ -71,7 +71,7 @@ const reviews = (app: Express)=>{
 
   //  delete review by its id
   app.route("/auth/reviews/delete/:reviewId").delete(
-    // adminRoleAuth,
+    bothRoleAuth,
     async (req, res, next) => {
     try {
       await deleteReviewController(req, res)

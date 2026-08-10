@@ -1,11 +1,11 @@
 import { Express } from "express";
 import { createPaymentController, deletePaymentController, getAllPaymentsController, getPaymentByIdController, getPaymetByBookingIdController, updatepaymentController } from "./payments.controller";
-import { adminRoleAuth } from "../middleware/bearAuth";
+import { adminRoleAuth, bothRoleAuth } from "../middleware/bearAuth";
 
 const payments = (app: Express)=>{
   // create payment
   app.route("/payments/createpayment").post(
-    adminRoleAuth,
+    bothRoleAuth,
     async (req, res, next) => {
     try {
       await createPaymentController(req, res)

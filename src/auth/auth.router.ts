@@ -18,7 +18,7 @@ const host = (app: Express)=>{
 
   // get host by id
   app.route("/auth/hosts/getbyid/:hostAdminId").get(
-    // adminRoleAuth,
+    adminRoleAuth,
     async (req, res, next) => {
       try {
         await getHostByIDController(req, res)
@@ -30,7 +30,7 @@ const host = (app: Express)=>{
 
 // get all hosts
   app.route("/auth/hosts/get").get(
-    // adminRoleAuth,
+    adminRoleAuth,
     async (req, res, next) => {
     try {
       await getAllHostcontroller(req, res)
