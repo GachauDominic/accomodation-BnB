@@ -25,6 +25,10 @@ jest.mock("../../src/approvals/approvals.service", () => ({
   deleteApprovalByIdService: jest.fn(),
 }));
 
+const approvalService = require("../../src/approvals/approvals.service");
+const guestService = require("../../src/guests/guest.service");
+const roomService = require("../../src/rooms/room.service");
+
 jest.mock("../../src/guests/guest.service", () => ({
   getGuestByIdService: jest.fn(),
 }));
@@ -34,10 +38,6 @@ jest.mock("../../src/rooms/room.service", () => ({
 jest.mock("../../src/auth/auth.service", () => ({
   getHostByIdService: jest.fn(),
 }));
-
-const approvalService = require("../../src/approvals/approvals.service");
-const guestService = require("../../src/guests/guest.service");
-const roomService = require("../../src/rooms/room.service");
 
 const mockResponse = () => {
   const res: any = {};

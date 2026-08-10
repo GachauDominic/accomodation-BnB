@@ -34,7 +34,7 @@ export const getBookingByIdController = async (req: Request, res: Response) => {
  try {
     const bookingId = req.params.bookingId ?? req.body.bookingId
     if (!bookingId) {
-      return res.json({message: "Booking Id is required"})
+      return res.status(400).json({message: "Booking Id is required"})
     }
 
     const booking = await getBookingByIdService(bookingId)
@@ -50,7 +50,7 @@ export const getBookingByGuestIdController = async (req: Request, res: Response)
   try {
     const guestId = req.params.guestId ?? req.body.guestId
     if (!guestId) {
-      return res.json({message: "Guest Id is required"})
+      return res.status(400).json({message: "Guest Id is required"})
     }
 
     const ifExistingGuest = await getGuestByIdService(guestId)
@@ -72,7 +72,7 @@ export const getBookingByGuestIdController = async (req: Request, res: Response)
 export const updateBookingController = async (req: Request, res: Response) => {
   try {
     const bookingId = req.params.bookingId ?? req.body.bookingId
-    if (!bookingId) return res.json({message: "Booking Id required"})
+    if (!bookingId) return res.status(400).json({message: "Booking Id required"})
 
     const bookings = req.body
     //convert checkindate & checkoutdate & bookingdate to a Date Object if provided
@@ -106,8 +106,8 @@ export const deleteBookingController = async (req: Request, res: Response) => {
       if (!ifExistingBooking) return res.status(404).json({message: "Booking not found!"})
     
     const deletedBooking = await deleteBookingService(bookingId)
-    if (!deletedBooking) return res.status(400).json({message: "Unable to delete Booking"})
-      return res.status(200).json({message: "Booking deleted successfuly"})
+    if (!deletedBooking) return res.status(400).json({message: "Unable to delete Booking."})
+      return res.status(204).json({message: "Booking deleted successfuly"})
   } catch (error: any) {
     return res.status(500).json({error: error.message})
   }
