@@ -109,7 +109,7 @@ export const roomApprovalTable = pgTable("roomApproval", {
 // host 1:n roomApproval
 export const hostRelations = relations(hostAdminTable, ({many}) => ({
   rooms: many(roomsTable),
-  roomApprovalTable:  many(roomApprovalTable),
+  roomApprovals:  many(roomApprovalTable),
 }));
 
 // guest 1-n bookings

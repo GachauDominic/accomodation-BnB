@@ -2,6 +2,8 @@ import approvals from "./approvals/approvals.route"
 import host from "./auth/auth.router"
 import bookings from "./bookings/booking.route"
 import guest from "./guests/guest.route"
+import { logger } from "./middleware/logger"
+import { rateLimiterMiddleware } from "./middleware/rateLimiter"
 import payments from "./payments/payments.route"
 import reviews from "./reviews/reviews.route"
 import rooms from "./rooms/room.route"
@@ -15,6 +17,9 @@ const initializeApp = ()=>{
   //middlewares
   // {handles url-encoded data ie => form data. By pulling out data as a parameter when it comes in as a URL}
   // app.use(express.urlencoded({extended: false}));
+
+  app.use(logger)
+  app.use(rateLimiterMiddleware)
 
   // {getting data comming in form of a json format}
   app.use(express.json())

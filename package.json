@@ -10,6 +10,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/Drizzle/migrate.ts",
     "db:seed": "tsx src/Drizzle/seed.ts",
+    "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "typecheck": "tsc --noEmit",
     "test": "jest",
@@ -20,7 +21,7 @@
   "keywords": [],
   "author": "GachauDominic",
   "license": "ISC",
-  "packageManager": "pnpm@11.21.0+sha512.521705bce689924eac72f5a3587122f362689ef6571e55ba80076fd637c11132ecffada26fad4ea79c485bfddbfd3d5a2a5b05805a77e893de71ec8a6cca3bb1",
+  "packageManager": "pnpm@11.23.0+sha512.f00082e5b283a199b74e079da28d155c008fe232f44c8a06ea7ddfa014ecf719fc362f790ecc67b28106ddac2afb24c49a9a079159da560b2ce7d1e98efd11af",
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.6",
@@ -39,6 +40,7 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
     "@types/k6": "^2.0.1",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",
@@ -47,6 +49,7 @@
     "jsonwebtoken": "^9.0.3",
     "k6": "^0.0.0",
     "nodemailer": "^9.0.3",
-    "pg": "^8.22.0"
+    "pg": "^8.22.0",
+    "rate-limiter-flexible": "^11.2.0"
   }
 }
