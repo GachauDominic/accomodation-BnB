@@ -1,6 +1,6 @@
 import "dotenv/config";
-import { migrate } from "drizzle-orm/node-postgres/migrator";
-import db, { client } from "./db";
+import { migrate } from "drizzle-orm/neon-http/migrator";
+import db from "./db";
 
 async function migration() {
     if (!process.env.Database_URL) {
@@ -9,7 +9,6 @@ async function migration() {
 
     console.log("......Migrations Started......");
     await migrate(db, {migrationsFolder: __dirname + "/migrations"});
-    await client.end();
     console.log("......Migrations Completed......")
     process.exit(0); // 0 means success
 }

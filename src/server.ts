@@ -8,9 +8,10 @@ import payments from "./payments/payments.route"
 import reviews from "./reviews/reviews.route"
 import rooms from "./rooms/room.route"
 import express from 'express'
+import type { Express } from 'express'
 
 
-const initializeApp = ()=>{
+const initializeApp = (): Express => {
   // const express = require('express')
   const app = express()
 
