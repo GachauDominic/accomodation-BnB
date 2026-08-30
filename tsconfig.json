@@ -2,8 +2,9 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
    // File Layout
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./dist",
+
     "esModuleInterop": true,
     "moduleResolution": "nodenext",
 
@@ -46,7 +47,8 @@
 
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "src/**/*.ts",
   ],
   "exclude": [
     "node_modules",

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/serverport.ts",
-    "build": "tsc",
-    "start": "node dist/server.js",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "pnpm run build && node dist/server.js",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/Drizzle/migrate.ts",
     "db:seed": "tsx src/Drizzle/seed.ts",
@@ -17,6 +17,9 @@
     "unit:register": "jest unit/auth.service.test.ts",
     "smoke:login": "k6 run __tests__/performance/smoke/login.smoke.ts",
     "smoke:register": "k6 run  __tests__/performance/smoke/register.smoke.ts"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "keywords": [],
   "author": "GachauDominic",
